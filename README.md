@@ -11,6 +11,10 @@
     * [Product](#product)
   * [Authentication & authorization](#authentication--authorization)
   * [Implemented API](#implemented-api)
+    * [Guest](#guest)
+    * [Customer](#customer)
+    * [Manager](#manager)
+    * [Admin](#admin)
 
 ## Story
 
@@ -18,7 +22,7 @@ Guest:
 - Просмотр списка товаров (+фильтры)
 - Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
 
-User:
+Customer:
 - Все права пользователя Guest
 - Возможность управления корзиной (добавить/удалить товары в корзине)
 - Возможность писать свои отзывы для определённого товара (оценка + комментарий)
@@ -190,5 +194,42 @@ Used for commenting reviewes and answearing the questions.
 }</pre>
 
 ### Authentication & authorization
+Soon.
 
 ### Implemented API
+This section describes all implemented endpoints grouped by users.
+
+#### Guest
+
+##### Get all products list
+
+Response: `GET /products`
+Request: list of all [products](#product).
+Possible errors: `exceptions do not supossed for this case`.
+
+##### Get all categories
+
+Response: `GET /categories`
+Request: {["Category1", "Category2"]}.
+Possible errors: `exceptions do not supossed for this case`.
+
+##### Get products by category
+
+
+- Просмотр списка товаров (+фильтры)
+- Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
+
+#### Customer
+- Все права пользователя Guest
+- Возможность управления корзиной (добавить/удалить товары в корзине)
+- Возможность писать свои отзывы для определённого товара (оценка + комментарий)
+- Возможность писать свои вопросы для определённого товара
+
+#### Manager
+- Все права пользователя Guest
+- Возможность добавить/удалить/редактировать товар своей категории
+- Возможность просматривать / комментировать отзывы / вопросы к товару
+
+#### Admin
+- Все права пользователей User и Manager
+- Управление ролями пользователей (дать / упразднить роль Manager, установить категорию менеджера)
