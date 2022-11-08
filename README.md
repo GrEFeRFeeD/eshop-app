@@ -33,15 +33,23 @@ Admin:
 - Все права пользователей User и Manager
 - Управление ролями пользователей (дать / упразднить роль Manager, установить категорию менеджера)
 
-Категории товаров и их характеристики:
+Категории товаров и их базовые характеристики:
 - Clothes
-  - Беб
+  - Size
+  - Material
+  - Made in
 - Electronics
+  - be
 - Personal Care
+  - be
 - Hobbies
+  - be
 - Equipment
+  - be
 - Food Products
+  - be
 - Agriculture
+  - be
 
 ## API
 
