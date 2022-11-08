@@ -37,19 +37,25 @@ Admin:
 - Clothes
   - Size
   - Material
-  - Made in
+  - Brand
 - Electronics
-  - be
+  - Type
+  - Manufacturer
 - Personal Care
-  - be
+  - Type
+  - Body part
+  - Ingredients
 - Hobbies
-  - be
+  - Field
 - Equipment
-  - be
+  - Type
 - Food Products
-  - be
+  - GMO
+  - Lactose contains
+  - Peanut contains
 - Agriculture
-  - be
+  - Genus
+  - Modifications
 
 ## API
 
