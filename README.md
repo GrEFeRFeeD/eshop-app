@@ -1,5 +1,19 @@
 # eshop-app
 
+## Overview
+* [Story](#story)
+* [API](#api)
+  * [Models](#models)
+    * [User](#user)
+    * [Comment](#comment)
+    * [Review](#review)
+    * [Question](#question)
+    * [Product](#product)
+  * [Authentication & authorization](#authentication--authorization)
+  * [Implemented API](#implemented-api)
+
+## Story
+
 Guest:
 - Просмотр списка товаров (+фильтры)
 - Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
@@ -19,8 +33,9 @@ Admin:
 - Все права пользователей User и Manager
 - Управление ролями пользователей (дать / упразднить роль Manager, установить категорию менеджера)
 
-Категории товаров:
+Категории товаров и их характеристики:
 - Clothes
+  - Беб
 - Electronics
 - Personal Care
 - Hobbies
@@ -28,48 +43,138 @@ Admin:
 - Food Products
 - Agriculture
 
-## Models
+## API
 
-### User
+### Models
+
+#### User
+
+##### Customer
 <pre>
 {
     "id": 12,
+    "email": "bebeb@be.beb",
+    "name": "Beb Bebebb",
+    "role": "BBBEEE",
+    "bascet": [
+        {
+            "productId": 13,
+            "count": 2
+        },
+        {
+            "productId": 14,
+            "count": 1
+        }
+    ]
 }
 </pre>
 
-### Comment
+##### Manager
+<pre>
+{
+    "id": 12,
+    "email": "bebeb@be.beb",
+    "name": "Beb Bebebb",
+    "role": "BBBEEE",
+    "category": "Be"
+}
+</pre>
+
+##### Admin
+<pre>
+{
+    "id": 12,
+    "email": "bebeb@be.beb",
+    "name": "Beb Bebebb",
+    "role": "BBBEEE",
+}
+</pre>
+
+#### Comment
 Used for commenting reviewes and answearing the questions.
 <pre>
 {
     "id": 12,
+    "user": {
+        "id": 12,
+        "name": "Beb Bebebb",
+        "role": "BBBEEE"
+    },
+    "text": "be?"
 }
 </pre>
 
-### Review
-<pre>{
-    "id": 123,
-    "text": "b e b e",
-    "comments": [
-      
-    ]
-}</pre>
-
-### Question
+#### Review
 <pre>
 {
-    "id": 12,
+    "id": 123,
+    "user": {
+        "id": 12,
+        "name": "Beb Bebebb",
+        "role": "BBBEEE"
+    }
+    "text": "b e b e",
+    "grade": 4,
+    "comments": [
+        {
+            "id": 12,
+            "user": {
+                "id": 12,
+                "name": "Beb Bebebb",
+                "role": "BBBEEE"
+            },
+            "text": "be?"
+        }
+    ]
 }
 </pre>
 
-### Product:
-<pre>{
+#### Question
+<pre>
+{
+    "id": 123,
+    "user": {
+        "id": 12,
+        "name": "Beb Bebebb",
+        "role": "BBBEEE"
+    }
+    "text": "b e b e",
+    "comments": [
+        {
+            "id": 12,
+            "user": {
+                "id": 12,
+                "name": "Beb Bebebb",
+                "role": "BBBEEE"
+            },
+            "text": "be?"
+        }
+    ]
+}
+</pre>
+
+#### Product:
+<pre>
+{
     "id": 123,
     "name": "be",
     "price": 123.45,
     "category": "CAT",
     "description": "bebebe bebe bebebebeb",
-    "reviews": [
+    "characteristics": [
+        {
+            "characteristic": "beb",
+            "value": "BeBeB"
+        },
+        {
+            "characteristic": "be b be",
+            "value": "b b b e"
+        }
     ]
-    "questions":
-    ]
+    "reviews": []
+    "questions": []
 }</pre>
+
+### Authentication & authorization
+
+### Implemented API
