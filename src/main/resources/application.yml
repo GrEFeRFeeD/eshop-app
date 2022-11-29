@@ -1,1 +1,20 @@
+jwt:
+  secret: ${JWT_SECRET}
+  validity: ${JWT_VALIDITY}
 
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            clientId: ${FACEBOOK_CLIENT_ID}
+            clientSecret: ${FACEBOOK_SECRET}
+            redirectUri: ${FACEBOOK_REDIRECT_URI}
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql

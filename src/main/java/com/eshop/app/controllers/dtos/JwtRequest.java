@@ -5,8 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DAO for Facebook Token.
+ */
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class CustomerDto {
+public class JwtRequest {
 
+  private String facebookToken;
 }
