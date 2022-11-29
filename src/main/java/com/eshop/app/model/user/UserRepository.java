@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, Long> {
 
   List<User> findByRole(UserRole userRole);
-  Optional<User> findByEmail(String email);
+  //Optional<User> findByEmail(String email);
+  User findByEmail(String email);
 }

@@ -23,8 +23,10 @@ public class UserService {
 
   public User findByEmail(String email) throws UserException {
 
-    User user = userRepository.findByEmail(email).orElseThrow(() -> new UserException(
-        UserExceptionProfile.USER_NOT_FOUND));
+   User user = userRepository.findByEmail(email);
+   if (user == null) {
+     throw new UserException(UserExceptionProfile.USER_NOT_FOUND);
+   }
 
     return user;
   }
