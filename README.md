@@ -74,7 +74,7 @@ Admin:
     "email": "bebeb@be.beb",
     "name": "Beb Bebebb",
     "role": "BBBEEE",
-    "bascet": [
+    "cart": [
         {
             "productId": 13,
             "count": 2
@@ -243,14 +243,99 @@ Manager has the same opportunities as Guest, but also can manage the own profile
 
 ##### Profile managing
 
+###### Get information about yourself
+
+Request: `GET /me`
+
+Response: with apropriate [Customer Dto](#customer)
+
+###### Edit information about yourself
+
+Request: 'POST /me/name' with body:
+- `name` - new name for your profile
+
+Response: with apropriate [Customer Dto](#customer)
+
 ##### Cart managing
+
+###### Get cart items
+
+Request: `GET /cart`
+
+Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+
+###### Add item to cart
+
+Request: 'POST /cart' with body:
+- `product-id` - id of product to add
+- `count` - count of product to add
+
+Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+
+Posible errors:
+- product_not_found - in case product by given id was not found
+- incorrect_count - in case count is 0 or below
+
+###### Delete item from cart
+
+Request: `DELETE /cart` with body:
+- `product-id` - id of product to delete
+
+Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+
+Posible errors:
+- product_not_found - in case product by given id was not found
 
 ##### Product overviewing
 
-- Возможность управления корзиной (добавить/удалить товары в корзине)
-- Возможность писать свои отзывы для определённого товара (оценка + комментарий)
-- Возможность писать свои вопросы для определённого товара
-- Возможность просматривать информацию о себе
+###### Get product reviews
+
+Request: `GET /products/{product-id}/reviews`
+
+Response: `{"reviews": { ... }}` - list of [Review Dto](#review)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+
+###### Write own review
+
+Request: `POST /products/{product-id}/reviews` with body:
+- `text` - text of review
+- `grade` - value in range [1; 5]
+
+Response: with created [Review Dto](#review)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+
+###### Reply to review
+
+Request: `POST /products/{product-id}/reviews/{review-id}` with body:
+- `text` - text of comment to review
+
+Response: with affected [Review Dto](#review)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+- review_nor_found - in case review by given id was not found
+
+###### Get product questions
+
+Request: `GET /product/{product-id}/questions`
+
+Response: `{"questions": { ... }}` - list of [Question Dto](#question)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+
+###### Ask a question
+
+Request: `POST /product/{product-id}/questions`
+ 
+Response: with created [Question Dto](#question)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
 
 #### Manager
 
