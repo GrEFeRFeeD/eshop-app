@@ -12,9 +12,9 @@
   * [Authentication & authorization](#authentication--authorization)
   * [Implemented API](#implemented-api)
     * [Guest](#guest)
-    * [Customer](#customer)
-    * [Manager](#manager)
-    * [Admin](#admin)
+    * [Customer](#customer-1)
+    * [Manager](#manager-1)
+    * [Admin](#admin-1)
 
 ## Story
 
