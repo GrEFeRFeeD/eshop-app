@@ -194,7 +194,51 @@ Used for commenting reviewes and answearing the questions.
 }</pre>
 
 ### Authentication & authorization
-Soon.
+
+To get the Facebook Token you need to know the client id of API.
+In order to get it, you can perform:
+
+`GET /oauth2/facebook/v15.0`
+
+As a response, you will get:
+
+<pre>
+{
+    "clientId": "CLIENT_ID",
+    "redirectUri": "REDIRECT_URI",
+    "tokenRequestUrl": "https://www.facebook.com/v15.0/dialog/oauth?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=token"
+}
+</pre>
+
+Follow the link presented in `tokenRequestUrl`, pass the Facebook authentication, and you will be redirected to `redirectUri` with your facebook token as `access_token` URL param.  
+
+
+#### Getting the JWT
+
+To perform any authenticated or authorized request you should provide your Facebook Token to the next endpoint:
+
+`POST /authenticate`
+
+With requiered data parameter `{"facebookToken": "EAAHC..."}`.
+
+As the response you will get JSON Web Token as `{"token": "eyJhb..."}`.
+
+The possible exceptions are:
+- 401 - bad_facebook_token_exception
+- 401 - bad_credentials
+
+Gained JWT should be put in request header as a parameter `Authorization` with value `Bearer eyJhb...`.
+
+#### Edge cases
+
+You can face next exceptions while using JWT within yout request:
+- 401 - not_authenticated_exception 
+- 401 - bad_token_exception
+- 401 - expired_token_exception
+- 401 - bad_token_signature_exception
+- 401 - malformed_token_exception
+- 401 - unsupported_token_exception
+- 403 - access_denied_exception
 
 ### Implemented API
 This section describes all implemented endpoints grouped by users.
@@ -236,6 +280,15 @@ Possible errors: `exceptions do not supossed for this case`.
 - Просмотр списка товаров (+фильтры)
 - Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
 - Аутентификация
+
+##### Authentication
+
+Pass your facebook token to next endpoint to get JWT.
+
+Request: `GET /authentication` with body
+- `facebookToken` - token obtained from facebook 
+
+Response: `{"token: "bebe...."}`
 
 #### Customer
 
