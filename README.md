@@ -74,7 +74,7 @@ Admin:
     "email": "bebeb@be.beb",
     "name": "Beb Bebebb",
     "role": "BBBEEE",
-    "cart": [
+    "basket": [
         {
             "productId": 13,
             "count": 2
@@ -292,7 +292,7 @@ Response: `{"token: "bebe...."}`
 
 #### Customer
 
-Manager has the same opportunities as Guest, but also can manage the own profile, cart and review products.
+Manager has the same opportunities as Guest, but also can manage the own profile, basket and review products.
 
 ##### Profile managing
 
@@ -309,32 +309,32 @@ Request: 'POST /me/name' with body:
 
 Response: with apropriate [Customer Dto](#customer)
 
-##### Cart managing
+##### Basket managing
 
-###### Get cart items
+###### Get basket items
 
-Request: `GET /cart`
+Request: `GET /basket`
 
-Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
 
-###### Add item to cart
+###### Add item to basket
 
-Request: 'POST /cart' with body:
+Request: 'POST /basket' with body:
 - `product-id` - id of product to add
 - `count` - count of product to add
 
-Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
 
 Posible errors:
 - product_not_found - in case product by given id was not found
 - incorrect_count - in case count is 0 or below
 
-###### Delete item from cart
+###### Delete item from basket
 
-Request: `DELETE /cart` with body:
+Request: `DELETE /basket` with body:
 - `product-id` - id of product to delete
 
-Response: `{"cart":[ {"product-id": 12, "count": 10} ]}`
+Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
 
 Posible errors:
 - product_not_found - in case product by given id was not found
