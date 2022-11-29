@@ -260,7 +260,7 @@ Supported filters (pass as an request param):
 
 ##### Get product by id
 
-Request: `Get /products/{product-id}`
+Request: `GET /products/{product-id}`
 
 Response: with [product dto](#product)
 
