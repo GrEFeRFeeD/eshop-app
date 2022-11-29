@@ -464,7 +464,7 @@ Request: `POST /users/managers` with body:
 Response: with added / edited [Manager Dto](#manager)
 
 Possible errors:
-- user_has_another_role - in case user is exists but has another not-user role
+- user_has_another_role - in case user is exists but has another role
 
 ###### Revoke manager role
 
@@ -489,7 +489,7 @@ Request: `POST /users/admins` with body:
 Response: with added / edited [Admin Dto](#admin)
 
 Possible errors:
-- user_has_another_role - in case user is exists but has another not-user role
+- user_has_another_role - in case user is exists but has another role
 
 ###### Revoke admin role
 
