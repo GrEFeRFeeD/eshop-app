@@ -201,6 +201,8 @@ This section describes all implemented endpoints grouped by users.
 
 #### Guest
 
+Guests can only see the products or authenticate.
+
 ##### Get all products list
 
 Request: `GET /products`
@@ -209,7 +211,7 @@ Response: list of all [products](#product).
 
 Possible errors: `exceptions do not supossed for this case`.
 
-Supported filters (pass as an argument):
+Supported filters (pass as an request param):
 - ?category=category-name - will request with products by given [category](#get-all-categories)
 
 ##### Get product by id
@@ -233,28 +235,86 @@ Possible errors: `exceptions do not supossed for this case`.
 
 - Просмотр списка товаров (+фильтры)
 - Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
+- Аутентификация
 
 #### Customer
-- Все права пользователя Guest
+
+Manager has the same opportunities as Guest, but also can manage the own profile, cart and review products.
+
+##### Profile managing
+
+##### Cart managing
+
+##### Product overviewing
+
 - Возможность управления корзиной (добавить/удалить товары в корзине)
 - Возможность писать свои отзывы для определённого товара (оценка + комментарий)
 - Возможность писать свои вопросы для определённого товара
+- Возможность просматривать информацию о себе
 
 #### Manager
-- Все права пользователя Guest
+
+Manager has the same opportunities as Guest, but also can manage the products.
+
 - Возможность добавить/удалить/редактировать товар своей категории
-- Возможность просматривать / комментировать отзывы / вопросы к товару
+##### Product managing
+
+###### Add product
+
+Request: `POST /products` with body:
+- `name` - name of product
+- `price` - price of product
+- `description` - description of product
+- `characteristics` - list of product characteristics
+
+Response: with created [Product Dto](#product)
+
+Created product will have the category that was set to user with manager role.
+
+###### Edit product
+
+Request: `POST /products/{product-id}` with body:
+- `name` - new name of product
+- `price` - new price of product
+- `description` - new description of product
+- `characteristics` - new list of product characteristics
+
+Response: with edited [Product Dto](#product)
+
+All reviews and questions won't be affected during editing.
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+- product_incompatible_category - in case product by given id was found but has another from manager's category
+
+###### Delete product
+
+Request: `DELETE /products/{product-id}`
+
+Response: with deleted [Product Dto](#product)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
+- product_incompatible_category - in case product by given id was found but has another from manager's category
+
+##### Question answering
+
+Request: `POST /products/{product-id}/questions/{question-id}` with body:
+- `text` - text to answer the question
+
+Response: with affected [Question Dto](#question)
 
 #### Admin
 
-Admin has the same posibilities as User or Manager, but also can manage the roles.
+Admin has the same opportunities as Guest, User or Manager, but also can manage the roles.
 
 ##### Role managing
 
 ###### Get list of managers
 
 Request: `GET /users/managers`
-Response: {"managers":[{...}]} - list of [Manager Dto](#Manager)
+
+Response: {"managers":[{...}]} - list of [Manager Dto](#manager)
 
 ###### Add / edit manager information
 
@@ -262,7 +322,7 @@ Request: `POST /users/managers` with body:
 - `email` - facebook email for an manager
 - `category` - one of categories to set
 
-Response: with added / edited [Manager Dto](#Manager)
+Response: with added / edited [Manager Dto](#manager)
 
 Possible errors:
 - user_has_another_role - in case user is exists but has another not-user role
@@ -271,7 +331,7 @@ Possible errors:
 
 Request: `DELETE /users/managers/{manager-id}`
 
-Response: with deleted [Manager Dto](#Manager)
+Response: with deleted [Manager Dto](#manager)
 
 Possible errors:
 - user_not_found - in case user by given id was not found
@@ -280,14 +340,14 @@ Possible errors:
 ###### Get list of admins
 
 Request: `GET /users/admins`
-Response: {"admins":[{...}]} - list of [Admin Dto](#Admin)
+Response: {"admins":[{...}]} - list of [Admin Dto](#admin)
 
 ###### Grant admin role by email
 
 Request: `POST /users/admins` with body:
 - `email` - facebook email for an admin
 
-Response: with added / edited [Admin Dto](#Admin)
+Response: with added / edited [Admin Dto](#admin)
 
 Possible errors:
 - user_has_another_role - in case user is exists but has another not-user role
@@ -296,7 +356,7 @@ Possible errors:
 
 Request: `DELETE /users/admins/{admin-id}`
 
-Response: with deleted [Admin Dto](#Admin)
+Response: with deleted [Admin Dto](#admin)
 
 Possible errors:
 - user_not_found - in case user by given id was not found
