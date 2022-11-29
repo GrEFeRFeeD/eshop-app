@@ -383,7 +383,8 @@ Possible errors:
 
 ###### Ask a question
 
-Request: `POST /product/{product-id}/questions`
+Request: `POST /product/{product-id}/questions` with body:
+- `text` - text of a question
  
 Response: with created [Question Dto](#question)
 
