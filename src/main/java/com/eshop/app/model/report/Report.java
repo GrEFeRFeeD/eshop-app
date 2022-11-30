@@ -1,7 +1,9 @@
 package com.eshop.app.model.report;
 
 import com.eshop.app.model.comment.Comment;
+import com.eshop.app.model.product.Product;
 import com.eshop.app.model.user.User;
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +40,9 @@ public class Report {
   @JoinColumn(name = "user_id")
   private User user;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date date;
+
   private String text;
   private Integer grade;
 
@@ -44,4 +51,8 @@ public class Report {
 
   @OneToMany(mappedBy = "report")
   private List<Comment> comments;
+
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
 }

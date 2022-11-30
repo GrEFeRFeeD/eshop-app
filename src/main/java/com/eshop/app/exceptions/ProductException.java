@@ -11,7 +11,10 @@ public class ProductException extends Exception {
   public enum ProductExceptionProfile {
 
     PRODUCT_NOT_FOUND("product_not_found",
-        "Product by given identifier was not found.", HttpStatus.NOT_FOUND);
+        "Product by given identifier was not found.", HttpStatus.NOT_FOUND),
+
+    WRONG_CATEGORY("wrong_category",
+        "Category by given name was not found", HttpStatus.NOT_FOUND);
 
     private final String exceptionName;
     private final String exceptionMessage;
