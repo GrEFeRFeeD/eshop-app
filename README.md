@@ -287,7 +287,11 @@ Request: `GET /categories`
 
 Response: `{"categories": ["Category1", "Category2"], "characteristics": [ "Category1":["Characteristic1", "Characteristic2"], "Category2":[] ]}`.
 
-Possible errors: `exceptions do not supossed for this case`.
+##### Get category characteristics
+
+Request: 'GET /categories/{category-name}'
+
+Response: `{ "category":"Category1", "characteristics": ["Characteristic1", "Characteristic2"] }`
 
 ##### Authentication
 
