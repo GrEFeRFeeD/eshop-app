@@ -189,8 +189,6 @@ Used for commenting reviewes and answearing the questions.
             "value": "b b b e"
         }
     ]
-    "reviews": []
-    "questions": []
 }</pre>
 
 ### Authentication & authorization
