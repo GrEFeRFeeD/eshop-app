@@ -1,5 +1,7 @@
 # eshop-app
 
+Eshop-app is the RESTful API to perform the Internet shopping that supports such roles as Guest, Customer, Manager, Admin; such functionality as getting categories, getting, adding, deleting products, writing and applying for reviews and questions.
+
 ## Overview
 * [Story](#story)
 * [API](#api)
