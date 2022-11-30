@@ -389,7 +389,7 @@ Possible errors:
 
 ###### Reply to review
 
-Request: `POST /products/{product-id}/reviews/{review-id}` with body:
+Request: `POST /products/{product-id}/reviews/{review-id}/comments` with body:
 - `text` - text of comment to review
 
 Response: with affected [Review Dto](#review)
@@ -455,7 +455,7 @@ Possible errors:
 
 ##### Question answering
 
-Request: `POST /products/{product-id}/questions/{question-id}` with body:
+Request: `POST /products/{product-id}/questions/{question-id}/comments` with body:
 - `text` - text to answer the question
 
 Response: with affected [Question Dto](#question)
