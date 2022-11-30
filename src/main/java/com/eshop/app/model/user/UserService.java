@@ -33,14 +33,12 @@ public class UserService {
 
   public User addNewManager(String email, ProductCategory productCategory) {
 
-    //TODO: add name
     User newUser = new User(null, email, email, UserRole.MANAGER, productCategory);
     return userRepository.save(newUser);
   }
 
   public User addNewAdmin(String email) {
 
-    //TODO: add name
     User newUser = new User(null, email, email, UserRole.ADMIN, null);
     return userRepository.save(newUser);
   }

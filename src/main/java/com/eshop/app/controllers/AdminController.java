@@ -11,9 +11,11 @@ import com.eshop.app.exceptions.UserException.UserExceptionProfile;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserRole;
 import com.eshop.app.model.user.UserService;
+import com.eshop.app.security.JwtUserDetails;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,12 +96,17 @@ public class AdminController {
   }
 
   @DeleteMapping("/users/admins/{admin-id}")
-  public ResponseEntity<AdminDto> deleteAdmin(@PathVariable("admin-id") Long adminId)
+  public ResponseEntity<AdminDto> deleteAdmin(@PathVariable("admin-id") Long adminId,
+      Authentication authentication)
       throws UserException {
 
     User userToDelete = userService.findById(adminId);
 
-    //TODO: add self revoking
+    JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+    if (userToDelete.getEmail() == jwtUserDetails.getEmail()) {
+      throw new UserException(UserExceptionProfile.USER_SELF_REVOKING);
+    }
+
     if (userToDelete.getRole() != UserRole.ADMIN) {
       throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
     }

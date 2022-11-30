@@ -1,8 +1,11 @@
 package com.eshop.app.controllers;
 
+import com.eshop.app.controllers.dtos.AdminDto;
+import com.eshop.app.controllers.dtos.CustomerDto;
 import com.eshop.app.controllers.dtos.FacebookOauthInfoDto;
 import com.eshop.app.controllers.dtos.JwtRequest;
 import com.eshop.app.controllers.dtos.JwtResponse;
+import com.eshop.app.controllers.dtos.ManagerDto;
 import com.eshop.app.exceptions.SecurityException;
 import com.eshop.app.exceptions.SecurityException.SecurityExceptionProfile;
 import com.eshop.app.exceptions.UserException;
@@ -78,9 +81,7 @@ public class JwtAuthenticationController {
     String email = userScopes.get(FacebookScopes.EMAIL);
     String name = userScopes.get(FacebookScopes.NAME);
 
-    System.out.println("ENTERED auth WITH E = " + email + " AND NAME = " + name);
     authenticate(email);
-    System.out.println("EXITED auth");
 
     final JwtUserDetails userDetails = (JwtUserDetails) userDetailsService
         .loadUserByEmailAndName(email, name);
@@ -92,12 +93,9 @@ public class JwtAuthenticationController {
 
   private void authenticate(String username) {
     try {
-      System.out.println("ENTERED ZONE 1");
       authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(username, username));
-      System.out.println("ENTERED ZONE 1.1");
     } catch (BadCredentialsException e) {
-      System.out.println("ENTERED ZONE 2");
       throw new SecurityException(SecurityExceptionProfile.BAD_CREDENTIALS);
     }
   }
@@ -113,9 +111,13 @@ public class JwtAuthenticationController {
   public ResponseEntity<?> getMyself(Authentication authentication) throws UserException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-
     User user = userService.findByEmail(jwtUserDetails.getEmail());
-    return ResponseEntity.ok(user);
+
+    switch (user.getRole()) {
+      case ADMIN: return ResponseEntity.ok(new AdminDto(user));
+      case MANAGER: return ResponseEntity.ok(new ManagerDto(user));
+      default: return ResponseEntity.ok(new CustomerDto(user));
+    }
   }
 
   /**

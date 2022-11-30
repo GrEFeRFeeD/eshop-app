@@ -15,7 +15,10 @@ public class UserException extends Exception{
         "User by given identifier was not found.", HttpStatus.NOT_FOUND),
 
     USER_HAS_ANOTHER_ROLE("user_has_another_role",
-        "User by given identifier already has another role.", HttpStatus.BAD_REQUEST);
+        "User by given identifier already has another role.", HttpStatus.BAD_REQUEST),
+
+    USER_SELF_REVOKING("user_self_revoking",
+        "User can not revoke himself.", HttpStatus.BAD_REQUEST);
 
     private final String exceptionName;
     private final String exceptionMessage;
