@@ -9,6 +9,7 @@
     * [Review](#review)
     * [Question](#question)
     * [Product](#product)
+    * [Categories](#categories)
   * [Authentication & authorization](#authentication--authorization)
   * [Implemented API](#implemented-api)
     * [Guest](#guest)
@@ -191,6 +192,21 @@ Used for commenting reviewes and answearing the questions.
     ]
 }</pre>
 
+#### Categories
+<pre>
+    "categories": [
+        "category1", "category2"
+    ],
+    "characteristics": [
+        "category1": [
+            "characteristic1-1", "characteristic1.2"
+        ],
+        "category2": [
+            "characteristic2"
+        ]        
+    }
+</pre>
+
 ### Authentication & authorization
 
 To get the Facebook Token you need to know the client id of API.
@@ -243,7 +259,7 @@ This section describes all implemented endpoints grouped by users.
 
 #### Guest
 
-Guests can only see the products or authenticate.
+Guests can only see the products, categories or authenticate.
 
 ##### Get all products list
 
@@ -269,15 +285,9 @@ Possible errors:
 
 Request: `GET /categories`
 
-Response: {"categories": ["Category1", "Category2"]}.
+Response: `{"categories": ["Category1", "Category2"], "characteristics": [ "Category1":["Characteristic1", "Characteristic2"], "Category2":[] ]}`.
 
 Possible errors: `exceptions do not supossed for this case`.
-
-##### Get products by category
-
-- Просмотр списка товаров (+фильтры)
-- Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
-- Аутентификация
 
 ##### Authentication
 
