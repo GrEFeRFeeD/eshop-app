@@ -119,7 +119,7 @@ Used for commenting reviewes and answearing the questions.
         "name": "Beb Bebebb",
         "role": "BBBEEE"
     },
-    "date": "YYYY-MM-DD HH:mm:ss",
+    "date": "yyyy-MM-dd@HH:mm:ssZ",
     "text": "be?"
 }
 </pre>
@@ -133,7 +133,7 @@ Used for commenting reviewes and answearing the questions.
         "name": "Beb Bebebb",
         "role": "BBBEEE"
     }
-    "date": "YYYY-MM-DD HH:mm:ss",
+    "date": "yyyy-MM-dd@HH:mm:ssZ",
     "text": "b e b e",
     "grade": 4,
     "comments": [
@@ -159,7 +159,7 @@ Used for commenting reviewes and answearing the questions.
         "name": "Beb Bebebb",
         "role": "BBBEEE"
     }
-    "date": "YYYY-MM-DD HH:mm:ss",
+    "date": "yyyy-MM-dd@HH:mm:ssZ",
     "text": "b e b e",
     "comments": [
         {
