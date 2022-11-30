@@ -1,7 +1,9 @@
 package com.eshop.app.model.comment;
 
 import com.eshop.app.controllers.dtos.CommentForm;
+import com.eshop.app.model.report.Report;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,14 @@ public class CommentService {
 
   public Comment save(Comment comment) {
     return commentRepository.save(comment);
+  }
+
+  public List<Comment> findByReport(Report report) {
+    return commentRepository.findByReport(report);
+  }
+
+  public void deleteAll(List<Comment> comments) {
+
+    commentRepository.deleteAll(comments);
   }
 }

@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface ReportRepository extends CrudRepository<Report, Long> {
 
   List<Report> findByProductAndType(Product product, ReportType type);
+  List<Report> findByProduct(Product product);
 }

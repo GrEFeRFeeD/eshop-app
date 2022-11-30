@@ -18,7 +18,10 @@ public class UserException extends Exception{
         "User by given identifier already has another role.", HttpStatus.BAD_REQUEST),
 
     USER_SELF_REVOKING("user_self_revoking",
-        "User can not revoke himself.", HttpStatus.BAD_REQUEST);
+        "User can not revoke himself.", HttpStatus.BAD_REQUEST),
+
+    FOREIGN_CATEGORY("foreign_category",
+        "Product by given id has another than user's category.", HttpStatus.FORBIDDEN);
 
     private final String exceptionName;
     private final String exceptionMessage;

@@ -4,6 +4,8 @@ import com.eshop.app.controllers.dtos.QuestionForm;
 import com.eshop.app.controllers.dtos.ReviewForm;
 import com.eshop.app.exceptions.ReportException;
 import com.eshop.app.exceptions.ReportException.ReportExceptionProfile;
+import com.eshop.app.model.comment.Comment;
+import com.eshop.app.model.comment.CommentService;
 import com.eshop.app.model.product.Product;
 import java.sql.Date;
 import java.util.List;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Service;
 public class ReportService {
 
   private final ReportRepository reportRepository;
+  private final CommentService commentService;
 
   @Autowired
-  public ReportService(ReportRepository reportRepository) {
+  public ReportService(ReportRepository reportRepository, CommentService commentService) {
     this.reportRepository = reportRepository;
+    this.commentService = commentService;
   }
 
   public List<Report> findByProductAndType(Product product, ReportType type) {
@@ -53,5 +57,22 @@ public class ReportService {
   public Report findQuestionById(Long id) throws ReportException {
     return reportRepository.findById(id).orElseThrow(() -> new ReportException(
         ReportExceptionProfile.QUESTION_NOT_FOUND));
+  }
+
+  public List<Report> findByProduct(Product product) {
+    return reportRepository.findByProduct(product);
+  }
+
+  public void deleteAll(List<Report> reports) {
+
+    for (Report report : reports) {
+
+      List<Comment> comments = commentService.findByReport(report);
+      commentService.deleteAll(comments);
+
+      reportRepository.delete(report);
+    }
+
+
   }
 }

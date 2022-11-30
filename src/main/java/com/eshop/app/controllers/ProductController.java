@@ -1,8 +1,8 @@
 package com.eshop.app.controllers;
 
 import com.eshop.app.controllers.dtos.CategoryListDto;
-import com.eshop.app.controllers.dtos.CommentDto;
 import com.eshop.app.controllers.dtos.CommentForm;
+import com.eshop.app.controllers.dtos.ProductForm;
 import com.eshop.app.controllers.dtos.ProductListDto;
 import com.eshop.app.controllers.dtos.QuestionDto;
 import com.eshop.app.controllers.dtos.QuestionForm;
@@ -15,6 +15,7 @@ import com.eshop.app.exceptions.ProductException.ProductExceptionProfile;
 import com.eshop.app.exceptions.ReportException;
 import com.eshop.app.exceptions.ReportException.ReportExceptionProfile;
 import com.eshop.app.exceptions.UserException;
+import com.eshop.app.exceptions.UserException.UserExceptionProfile;
 import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.comment.CommentService;
 import com.eshop.app.model.product.Product;
@@ -35,6 +36,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -219,5 +222,61 @@ public class ProductController {
     question = reportService.findQuestionById(comment.getId());
 
     return ResponseEntity.ok(new ReviewDto(question));
+  }
+
+  @PostMapping("/products")
+  public ResponseEntity<Product> addProduct(@RequestBody ProductForm productForm,
+      Authentication authentication) throws UserException {
+
+    JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+    User user = userService.findByEmail(jwtUserDetails.getEmail());
+
+    Product product = productService.obtainFrom(productForm);
+
+    if (user.getCategory() != null) {
+      product.setCategory(user.getCategory());
+    } else {
+      product.setCategory(ProductCategory.HOBBIES);
+    }
+
+    product = productService.save(product);
+    return ResponseEntity.ok(product);
+  }
+
+  @PostMapping("/products/{product-id}")
+  public ResponseEntity<Product> editProduct(
+      @PathVariable("product-id") Long id,
+      @RequestBody ProductForm productForm,
+      Authentication authentication) throws UserException, ProductException {
+
+    JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+    User user = userService.findByEmail(jwtUserDetails.getEmail());
+
+    Product product = productService.findById(id);
+    product = productService.obtainFromFormToObject(product, productForm);
+
+    if (user.getCategory() != null && user.getCategory() != product.getCategory()) {
+      throw new UserException(UserExceptionProfile.FOREIGN_CATEGORY);
+    }
+
+    product = productService.save(product);
+    return ResponseEntity.ok(product);
+  }
+
+  @DeleteMapping("/products/{product-id}")
+  public ResponseEntity<Product> deleteProduct(@PathVariable("product-id") Long id,
+      Authentication authentication) throws ProductException, UserException {
+
+    Product product = productService.findById(id);
+
+    JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+    User user = userService.findByEmail(jwtUserDetails.getEmail());
+
+    if (user.getCategory() != null && user.getCategory() != product.getCategory()) {
+      throw new UserException(UserExceptionProfile.FOREIGN_CATEGORY);
+    }
+
+    productService.delete(product);
+    return ResponseEntity.ok(product);
   }
 }
