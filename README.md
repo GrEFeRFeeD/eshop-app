@@ -327,17 +327,19 @@ Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
 
 Posible errors:
 - product_not_found - in case product by given id was not found
-- incorrect_count - in case count is 0 or below
+- validation_error - in case count is 0 or below
 
 ###### Delete item from basket
 
 Request: `DELETE /basket` with body:
-- `product-id` - id of product to delete
+- `product-id` - id of product to remove
+- `count` - count of product to remove
 
 Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
 
 Posible errors:
 - product_not_found - in case product by given id was not found
+- validation_error - in case count is 0 or below
 
 ##### Product overviewing
 
