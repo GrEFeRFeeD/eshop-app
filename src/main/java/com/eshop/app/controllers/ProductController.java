@@ -226,7 +226,7 @@ public class ProductController {
 
   @PostMapping("/products")
   public ResponseEntity<Product> addProduct(@RequestBody ProductForm productForm,
-      Authentication authentication) throws UserException {
+      Authentication authentication) throws UserException, ProductException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());

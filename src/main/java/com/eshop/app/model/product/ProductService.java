@@ -3,10 +3,12 @@ package com.eshop.app.model.product;
 import com.eshop.app.controllers.dtos.ProductForm;
 import com.eshop.app.exceptions.ProductException;
 import com.eshop.app.exceptions.ProductException.ProductExceptionProfile;
+import com.eshop.app.model.characteristic.Characteristic;
 import com.eshop.app.model.characteristic.CharacteristicService;
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.report.ReportService;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,19 +40,40 @@ public class ProductService {
     return productRepository.findByCategory(category);
   }
 
-  public Product obtainFrom(ProductForm productForm) {
+  public Product obtainFrom(ProductForm productForm) throws ProductException {
 
     Product product = obtainFromFormToObject(new Product(), productForm);
     return save(product);
   }
 
-  public Product obtainFromFormToObject(Product product, ProductForm productForm) {
+  public Product obtainFromFormToObject(Product product, ProductForm productForm)
+      throws ProductException {
 
     product.setName(productForm.getName());
     product.setPrice(productForm.getPrice());
     product.setDescription(productForm.getDescription());
-    // TODO: characteristics
-    return product;
+
+    List<Characteristic> characteristics = productForm.getCharacteristics().stream()
+            .map(characteristicService::createCharacteristic)
+            .collect(Collectors.toList());
+
+    product.setCharacteristics(characteristics);
+
+    if (checkBasicCharacteristicsPresence(product)) {
+      return product;
+    }
+
+    throw new ProductException(ProductExceptionProfile.BASIC_CHARACTERISTICS_NOT_COVERED);
+  }
+
+  private boolean checkBasicCharacteristicsPresence(Product product) {
+
+    List<String> basicCharacteristics = product.getCategory().getBasicCharacteristics();
+    for (Characteristic characteristic : product.getCharacteristics()) {
+      basicCharacteristics.remove(characteristic.getCharacteristic());
+    }
+
+    return basicCharacteristics.isEmpty();
   }
 
   public Product save(Product product) {

@@ -14,7 +14,10 @@ public class ProductException extends Exception {
         "Product by given identifier was not found.", HttpStatus.NOT_FOUND),
 
     WRONG_CATEGORY("wrong_category",
-        "Category by given name was not found", HttpStatus.NOT_FOUND);
+        "Category by given name was not found", HttpStatus.NOT_FOUND),
+
+    BASIC_CHARACTERISTICS_NOT_COVERED("basic_characteristics_not_covered",
+        "Product characteristic list should contain at least basic category characteristics.", HttpStatus.BAD_REQUEST);
 
     private final String exceptionName;
     private final String exceptionMessage;
