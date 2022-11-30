@@ -259,7 +259,19 @@ This section describes all implemented endpoints grouped by users.
 
 #### Guest
 
-Guests can only see the products, categories or authenticate.
+Guests can only see the categories, products or authenticate.
+
+##### Get all categories
+
+Request: `GET /categories`
+
+Response: `{"categories": ["Category1", "Category2"], "characteristics": [ "Category1":["Characteristic1", "Characteristic2"], "Category2":[] ]}`.
+
+##### Get category characteristics
+
+Request: 'GET /categories/{category-name}'
+
+Response: `{ "category":"Category1", "characteristics": ["Characteristic1", "Characteristic2"] }`
 
 ##### Get all products list
 
@@ -281,17 +293,23 @@ Response: with [product dto](#product)
 Possible errors: 
 - `product_not_found`
 
-##### Get all categories
+##### Get product reviews
 
-Request: `GET /categories`
+Request: `GET /products/{product-id}/reviews`
 
-Response: `{"categories": ["Category1", "Category2"], "characteristics": [ "Category1":["Characteristic1", "Characteristic2"], "Category2":[] ]}`.
+Response: `{"reviews": { ... }}` - list of [Review Dto](#review)
 
-##### Get category characteristics
+Possible errors:
+- product_not_found - in case product by given id was not found
 
-Request: 'GET /categories/{category-name}'
+##### Get product questions
 
-Response: `{ "category":"Category1", "characteristics": ["Characteristic1", "Characteristic2"] }`
+Request: `GET /product/{product-id}/questions`
+
+Response: `{"questions": { ... }}` - list of [Question Dto](#question)
+
+Possible errors:
+- product_not_found - in case product by given id was not found
 
 ##### Authentication
 
@@ -355,15 +373,6 @@ Posible errors:
 
 ##### Product overviewing
 
-###### Get product reviews
-
-Request: `GET /products/{product-id}/reviews`
-
-Response: `{"reviews": { ... }}` - list of [Review Dto](#review)
-
-Possible errors:
-- product_not_found - in case product by given id was not found
-
 ###### Write own review
 
 Request: `POST /products/{product-id}/reviews` with body:
@@ -385,15 +394,6 @@ Response: with affected [Review Dto](#review)
 Possible errors:
 - product_not_found - in case product by given id was not found
 - review_nor_found - in case review by given id was not found
-
-###### Get product questions
-
-Request: `GET /product/{product-id}/questions`
-
-Response: `{"questions": { ... }}` - list of [Question Dto](#question)
-
-Possible errors:
-- product_not_found - in case product by given id was not found
 
 ###### Ask a question
 
