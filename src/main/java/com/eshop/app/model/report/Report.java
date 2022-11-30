@@ -3,7 +3,8 @@ package com.eshop.app.model.report;
 import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.product.Product;
 import com.eshop.app.model.user.User;
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +51,7 @@ public class Report {
   private ReportType type;
 
   @OneToMany(mappedBy = "report")
-  private List<Comment> comments;
+  private List<Comment> comments = new ArrayList<>();
 
   @ManyToOne
   @JoinColumn(name = "product_id")

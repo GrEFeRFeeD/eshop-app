@@ -2,7 +2,7 @@ package com.eshop.app.model.comment;
 
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.user.User;
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

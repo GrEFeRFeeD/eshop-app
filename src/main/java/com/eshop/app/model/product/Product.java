@@ -2,6 +2,7 @@ package com.eshop.app.model.product;
 
 import com.eshop.app.model.characteristic.Characteristic;
 import com.eshop.app.model.report.Report;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,5 +39,5 @@ public class Product {
   private ProductCategory category;
 
   @OneToMany(mappedBy = "product")
-  private List<Characteristic> characteristics;
+  private List<Characteristic> characteristics = new ArrayList<>();
 }

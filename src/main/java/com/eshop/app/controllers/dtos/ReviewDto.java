@@ -4,7 +4,7 @@ import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.report.Report;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,7 @@ package com.eshop.app.controllers.dtos;
 import com.eshop.app.model.comment.Comment;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import java.sql.Date;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
