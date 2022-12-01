@@ -1,0 +1,43 @@
+package com.eshop.app.model.image;
+
+import com.eshop.app.exceptions.ImageException;
+import com.eshop.app.exceptions.ImageException.ImageExceptionProfile;
+import java.io.IOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class ImageService {
+
+  private final ImageRepository imageRepository;
+
+  @Autowired
+  public ImageService(ImageRepository imageRepository) {
+    this.imageRepository = imageRepository;
+  }
+
+  public Image save(MultipartFile multipartImage) throws ImageException {
+
+    Image image = new Image();
+    image.setName(multipartImage.getName());
+
+    try {
+      image.setContent(multipartImage.getBytes());
+    } catch (IOException e) {
+      throw new ImageException(ImageExceptionProfile.TEMPORARY_STORE_FAILED);
+    }
+
+    return imageRepository.save(image);
+  }
+
+  public Resource findResourcesById(Long id) throws ImageException {
+
+    Image image = imageRepository.findById(id).orElseThrow(() ->
+        new ImageException(ImageExceptionProfile.IMAGE_NOT_FOUND));
+
+    return new ByteArrayResource(image.getContent());
+  }
+}
