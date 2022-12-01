@@ -520,3 +520,54 @@ Possible errors:
 - user_not_found - in case user by given id was not found
 - user_has_another_role - in case user is exists but has another not-admin role
 - user_self_revoking_exception - in case admin is trying to revoke himself
+
+## Setting-up the project
+This section describes all needed steps to launch the application.
+
+### Getting the project
+First of all, you need to get the project. You can do this by two ways:
+- [Getting zip project file](#getting-zip-project-file)
+- [Cloning the repository](#cloning-the-repository)
+
+#### Getting zip project file
+To download project in zip follow the [link](https://github.com/GrEFeRFeeD/eshop-app/archive/refs/heads/main.zip).
+
+After downloading, unzip the archive and go to __eshop-app-main__ directory.
+
+#### Cloning the repository
+To clone the repository run the console and type:
+
+`git clone https://github.com/GrEFeRFeeD/eshop-app.git`
+
+After cloning is done change the directory to __eshop-app-main__ by the following command:
+
+`cd eshop-app-main`
+
+### Configuring docker
+This section describes all needed steps to launch application via docker.
+
+#### Configuring environmental variables
+Before launching the application via docker, you need to created `api.env` file with next environment variables.
+The example of such file represented in `example.env` file. The needed variables are:
+- `APPLICATION_PORT` - port on which application will be run
+- `JWT_SECRET` - defines secret work to assign the JWT
+- `JWT_VALIDITY` - validity of JWT in seconds
+- `FIRST_ADMIN_EMAIL` - facebook account attached email of first admin that will be automatically added to DB  
+- `FACEBOOK_CLIENT_ID` - application client id provided by facebook
+- `FACEBOOK_SECRET` - application secret provided by facebook
+- `FACEBOOK_REDIRECT_URI` - URI to which you will be redirected after oauth2. Configures by facebook application
+- `HIBERNATE_DDL_AUTO` - hibernate DDL launch mode:
+  - `validate`: validates the schema, makes no changes to the database.
+  - `update`: updates the schema.
+  - `create`: creates the schema, destroying previous data.
+  - `create-drop`: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
+  - none: does nothing with the schema, makes no changes to the database.
+- `DATABASE_PORT` - port on which database will be run
+- `POSTGRES_USER` - name of default postgresql user
+- `POSTGRES_PASSWORD` - password of default postgresql user
+- `POSTGRES_DB` - postgresql database name
+
+#### Launching the application
+Once the `api.env` is created with proper variables you can launch docker with application through running the following command:
+
+`docker-compose --env-file api.env up`
