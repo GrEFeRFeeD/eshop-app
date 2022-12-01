@@ -18,6 +18,7 @@ Eshop-app is the RESTful API to perform the Internet shopping that supports such
     * [Customer](#customer-1)
     * [Manager](#manager-1)
     * [Admin](#admin-1)
+* [Setting-up the project](#setting-up-the-project)
 
 ## Story
 
