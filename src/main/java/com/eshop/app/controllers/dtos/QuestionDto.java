@@ -20,6 +20,8 @@ public class QuestionDto {
   private Long id;
   private UserDto user;
   private String text;
+
+  private Long product;
   private List<CommentDto> comments;
 
   @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ssZ")
@@ -30,5 +32,6 @@ public class QuestionDto {
     this.user = new UserDto(report.getUser());
     this.comments = report.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     this.date = report.getDate();
+    this.product = report.getProduct().getId();
   }
 }

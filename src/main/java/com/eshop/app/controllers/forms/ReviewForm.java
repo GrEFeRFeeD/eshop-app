@@ -1,4 +1,4 @@
-package com.eshop.app.controllers.dtos;
+package com.eshop.app.controllers.forms;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

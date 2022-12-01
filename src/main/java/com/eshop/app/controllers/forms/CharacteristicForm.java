@@ -1,18 +1,16 @@
-package com.eshop.app.controllers.dtos;
+package com.eshop.app.controllers.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * DAO for JWT.
- */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class JwtResponse {
+public class CharacteristicForm {
 
-  private String token;
+  private String characteristic;
+  private String value;
 }

@@ -1,6 +1,6 @@
 package com.eshop.app.model.characteristic;
 
-import com.eshop.app.controllers.dtos.CharacteristicForm;
+import com.eshop.app.controllers.forms.CharacteristicForm;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

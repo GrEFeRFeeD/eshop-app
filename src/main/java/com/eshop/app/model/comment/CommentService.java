@@ -1,6 +1,6 @@
 package com.eshop.app.model.comment;
 
-import com.eshop.app.controllers.dtos.CommentForm;
+import com.eshop.app.controllers.forms.CommentForm;
 import com.eshop.app.model.report.Report;
 import java.util.Date;
 import java.util.List;

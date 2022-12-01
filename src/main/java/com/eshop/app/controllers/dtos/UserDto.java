@@ -15,10 +15,12 @@ public class UserDto {
   private Long id;
   private String name;
   private String role;
+  private Long image;
 
   public UserDto(User user) {
     this.id = user.getId();
     this.name = user.getName();
     this.role = user.getRole().toString();
+    this.image = user.getImage().getId();
   }
 }

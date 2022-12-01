@@ -2,6 +2,7 @@ package com.eshop.app.security;
 
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserRepository;
+import com.eshop.app.model.user.UserRole;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     Set<GrantedAuthority> authorities = new HashSet<>();
 
-    if (user != null && user.getRole() != null) {
+    if (user == null) {
+      user = new User(null, email, email, UserRole.CUSTOMER, null, null);
+      user = userRepository.save(user);
+    }
+
+    if (user.getRole() != null) {
       authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
-    } else {
-      authorities.add(new SimpleGrantedAuthority("ROLE_CANDIDATE"));
     }
 
     return new JwtUserDetails(email, null, passwordEncoder().encode(email), authorities);

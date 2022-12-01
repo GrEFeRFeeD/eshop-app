@@ -6,13 +6,18 @@ import com.eshop.app.controllers.dtos.ManagerDto;
 import com.eshop.app.controllers.dtos.ManagerListDto;
 import com.eshop.app.controllers.dtos.NewAdminDto;
 import com.eshop.app.controllers.dtos.NewManagerDto;
+import com.eshop.app.exceptions.CategoryException;
+import com.eshop.app.exceptions.ImageException;
 import com.eshop.app.exceptions.UserException;
 import com.eshop.app.exceptions.UserException.UserExceptionProfile;
+import com.eshop.app.model.category.Category;
+import com.eshop.app.model.category.CategoryService;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserRole;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,10 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
   private final UserService userService;
+  private final CategoryService categoryService;
 
   @Autowired
-  public AdminController(UserService userService) {
+  public AdminController(UserService userService, CategoryService categoryService) {
     this.userService = userService;
+    this.categoryService = categoryService;
   }
 
   @GetMapping("/users/managers")
@@ -43,14 +50,16 @@ public class AdminController {
 
   @PostMapping("/users/managers")
   public ResponseEntity<ManagerDto> addNewManager(@RequestBody NewManagerDto newManagerDto)
-      throws UserException {
+      throws UserException, CategoryException, ImageException {
+
+    Category category = categoryService.findById(newManagerDto.getCategory());
 
     User user;
     try {
       user = userService.findByEmail(newManagerDto.getEmail());
     } catch (UserException e) {
 
-      user = userService.addNewManager(newManagerDto.getEmail(), newManagerDto.getCategory());
+      user = userService.addNewManager(newManagerDto.getEmail(), category);
       return ResponseEntity.ok(new ManagerDto(user));
     }
 
@@ -81,7 +90,7 @@ public class AdminController {
 
   @PostMapping("/users/admins")
   public ResponseEntity<AdminDto> addNewAdmin(@RequestBody NewAdminDto adminDto)
-      throws UserException {
+      throws UserException, ImageException {
 
     User user;
     try {
@@ -103,7 +112,7 @@ public class AdminController {
     User userToDelete = userService.findById(adminId);
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-    if (userToDelete.getEmail() == jwtUserDetails.getEmail()) {
+    if (Objects.equals(userToDelete.getEmail(), jwtUserDetails.getEmail())) {
       throw new UserException(UserExceptionProfile.USER_SELF_REVOKING);
     }
 

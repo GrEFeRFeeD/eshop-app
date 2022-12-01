@@ -1,12 +1,13 @@
 package com.eshop.app.model.report;
 
-import com.eshop.app.controllers.dtos.QuestionForm;
-import com.eshop.app.controllers.dtos.ReviewForm;
+import com.eshop.app.controllers.forms.QuestionForm;
+import com.eshop.app.controllers.forms.ReviewForm;
 import com.eshop.app.exceptions.ReportException;
 import com.eshop.app.exceptions.ReportException.ReportExceptionProfile;
 import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.comment.CommentService;
 import com.eshop.app.model.product.Product;
+import com.eshop.app.model.user.User;
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,9 @@ public class ReportService {
     }
 
 
+  }
+
+  public List<Report> findByUser(User user) {
+    return reportRepository.findByUser(user);
   }
 }

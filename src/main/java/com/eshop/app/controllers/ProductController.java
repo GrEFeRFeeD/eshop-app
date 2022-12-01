@@ -1,25 +1,26 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.controllers.dtos.CategoryListDto;
-import com.eshop.app.controllers.dtos.CommentForm;
-import com.eshop.app.controllers.dtos.ProductForm;
+import com.eshop.app.controllers.forms.CommentForm;
+import com.eshop.app.controllers.dtos.ProductDto;
+import com.eshop.app.controllers.forms.ProductForm;
 import com.eshop.app.controllers.dtos.ProductListDto;
 import com.eshop.app.controllers.dtos.QuestionDto;
-import com.eshop.app.controllers.dtos.QuestionForm;
+import com.eshop.app.controllers.forms.QuestionForm;
 import com.eshop.app.controllers.dtos.ReviewDto;
-import com.eshop.app.controllers.dtos.ReviewForm;
+import com.eshop.app.controllers.forms.ReviewForm;
 import com.eshop.app.controllers.dtos.ReviewListDto;
-import com.eshop.app.controllers.dtos.SingleCategoryDto;
+import com.eshop.app.exceptions.CategoryException;
+import com.eshop.app.exceptions.ImageException;
 import com.eshop.app.exceptions.ProductException;
-import com.eshop.app.exceptions.ProductException.ProductExceptionProfile;
 import com.eshop.app.exceptions.ReportException;
 import com.eshop.app.exceptions.ReportException.ReportExceptionProfile;
 import com.eshop.app.exceptions.UserException;
 import com.eshop.app.exceptions.UserException.UserExceptionProfile;
+import com.eshop.app.model.category.Category;
+import com.eshop.app.model.category.CategoryService;
 import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.comment.CommentService;
 import com.eshop.app.model.product.Product;
-import com.eshop.app.model.product.ProductCategory;
 import com.eshop.app.model.product.ProductService;
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.report.ReportService;
@@ -27,16 +28,11 @@ import com.eshop.app.model.report.ReportType;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,38 +48,16 @@ public class ProductController {
   private final ReportService reportService;
   private final UserService userService;
   private final CommentService commentService;
+  private final CategoryService categoryService;
 
   @Autowired
   public ProductController(ProductService productService, ReportService reportService,
-      UserService userService, CommentService commentService) {
+      UserService userService, CommentService commentService, CategoryService categoryService) {
     this.productService = productService;
     this.reportService = reportService;
     this.userService = userService;
     this.commentService = commentService;
-  }
-
-  @GetMapping("/categories")
-  public ResponseEntity<CategoryListDto> getCategoriesList() {
-
-    List<String> categories = new ArrayList<>(List.of(Arrays.toString(ProductCategory.values())));
-    Map<String, List<String>> characteristics = Arrays.stream(ProductCategory.values())
-        .collect(Collectors.toMap(Enum::toString, ProductCategory::getBasicCharacteristics));
-
-    return ResponseEntity.ok(new CategoryListDto(categories, characteristics));
-  }
-
-  @GetMapping("/categories/{category-name}")
-  public ResponseEntity<SingleCategoryDto> getCategoryCharacteristics(@PathVariable("category-name") String categoryName)
-      throws ProductException {
-
-    ProductCategory category;
-    try {
-      category = ProductCategory.valueOf(categoryName);
-    } catch (IllegalArgumentException e) {
-      throw new ProductException(ProductExceptionProfile.WRONG_CATEGORY);
-    }
-
-    return ResponseEntity.ok(new SingleCategoryDto(category.toString(), category.getBasicCharacteristics()));
+    this.categoryService = categoryService;
   }
 
   @GetMapping("/products")
@@ -94,16 +68,10 @@ public class ProductController {
   }
 
   @GetMapping(value = "/products", params = {"category"})
-  public ResponseEntity<ProductListDto> getProductsByCategory(@RequestParam("category") String categoryName)
-      throws ProductException {
+  public ResponseEntity<ProductListDto> getProductsByCategory(@RequestParam("category") Long categoryId)
+      throws CategoryException {
 
-    ProductCategory category;
-    try {
-      category = ProductCategory.valueOf(categoryName);
-    } catch (IllegalArgumentException e) {
-      throw new ProductException(ProductExceptionProfile.WRONG_CATEGORY);
-    }
-
+    Category category = categoryService.findById(categoryId);
     List<Product> products = productService.findByCategory(category);
     return ResponseEntity.ok(new ProductListDto(products));
   }
@@ -225,8 +193,9 @@ public class ProductController {
   }
 
   @PostMapping("/products")
-  public ResponseEntity<Product> addProduct(@RequestBody ProductForm productForm,
-      Authentication authentication) throws UserException, ProductException {
+  public ResponseEntity<ProductDto> addProduct(@RequestBody ProductForm productForm,
+      Authentication authentication)
+      throws UserException, ProductException, ImageException, CategoryException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());
@@ -236,18 +205,19 @@ public class ProductController {
     if (user.getCategory() != null) {
       product.setCategory(user.getCategory());
     } else {
-      product.setCategory(ProductCategory.HOBBIES);
+      Category category = categoryService.findById(productForm.getCategory());
+      product.setCategory(category);
     }
 
     product = productService.save(product);
-    return ResponseEntity.ok(product);
+    return ResponseEntity.ok(new ProductDto(product));
   }
 
   @PostMapping("/products/{product-id}")
-  public ResponseEntity<Product> editProduct(
+  public ResponseEntity<ProductDto> editProduct(
       @PathVariable("product-id") Long id,
       @RequestBody ProductForm productForm,
-      Authentication authentication) throws UserException, ProductException {
+      Authentication authentication) throws UserException, ProductException, ImageException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());
@@ -260,11 +230,11 @@ public class ProductController {
     }
 
     product = productService.save(product);
-    return ResponseEntity.ok(product);
+    return ResponseEntity.ok(new ProductDto(product));
   }
 
   @DeleteMapping("/products/{product-id}")
-  public ResponseEntity<Product> deleteProduct(@PathVariable("product-id") Long id,
+  public ResponseEntity<ProductDto> deleteProduct(@PathVariable("product-id") Long id,
       Authentication authentication) throws ProductException, UserException {
 
     Product product = productService.findById(id);
@@ -277,6 +247,6 @@ public class ProductController {
     }
 
     productService.delete(product);
-    return ResponseEntity.ok(product);
+    return ResponseEntity.ok(new ProductDto(product));
   }
 }

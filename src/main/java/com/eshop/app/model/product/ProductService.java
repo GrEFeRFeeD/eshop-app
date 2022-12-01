@@ -1,10 +1,13 @@
 package com.eshop.app.model.product;
 
-import com.eshop.app.controllers.dtos.ProductForm;
+import com.eshop.app.controllers.forms.ProductForm;
+import com.eshop.app.exceptions.ImageException;
 import com.eshop.app.exceptions.ProductException;
 import com.eshop.app.exceptions.ProductException.ProductExceptionProfile;
+import com.eshop.app.model.category.Category;
 import com.eshop.app.model.characteristic.Characteristic;
 import com.eshop.app.model.characteristic.CharacteristicService;
+import com.eshop.app.model.image.ImageService;
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.report.ReportService;
 import java.util.List;
@@ -18,13 +21,15 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final ReportService reportService;
   private final CharacteristicService characteristicService;
+  private final ImageService imageService;
 
   @Autowired
   public ProductService(ProductRepository productRepository, ReportService reportService,
-      CharacteristicService characteristicService) {
+      CharacteristicService characteristicService, ImageService imageService) {
     this.productRepository = productRepository;
     this.reportService = reportService;
     this.characteristicService = characteristicService;
+    this.imageService = imageService;
   }
 
   public Product findById(Long id) throws ProductException {
@@ -36,22 +41,24 @@ public class ProductService {
     return (List<Product>) productRepository.findAll();
   }
 
-  public List<Product> findByCategory(ProductCategory category) {
+  public List<Product> findByCategory(Category category) {
     return productRepository.findByCategory(category);
   }
 
-  public Product obtainFrom(ProductForm productForm) throws ProductException {
+  public Product obtainFrom(ProductForm productForm) throws ProductException, ImageException {
 
     Product product = obtainFromFormToObject(new Product(), productForm);
     return save(product);
   }
 
   public Product obtainFromFormToObject(Product product, ProductForm productForm)
-      throws ProductException {
+      throws ProductException, ImageException {
 
     product.setName(productForm.getName());
     product.setPrice(productForm.getPrice());
     product.setDescription(productForm.getDescription());
+
+    product.setImage(imageService.findById(productForm.getImage()));
 
     List<Characteristic> characteristics = productForm.getCharacteristics().stream()
             .map(characteristicService::createCharacteristic)

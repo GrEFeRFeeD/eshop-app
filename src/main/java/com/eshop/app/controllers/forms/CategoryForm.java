@@ -1,18 +1,17 @@
-package com.eshop.app.controllers.dtos;
+package com.eshop.app.controllers.forms;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * DAO for Facebook Token.
- */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class JwtRequest {
+public class CategoryForm {
 
-  private String facebookToken;
+  private String name;
+  private List<String> basicCharacteristics;
 }

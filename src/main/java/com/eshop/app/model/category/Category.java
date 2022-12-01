@@ -1,34 +1,32 @@
-package com.eshop.app.model.image;
+package com.eshop.app.model.category;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "images")
+@Table(name = "categories")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Image {
+public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "image_id")
   private Long id;
 
-  @Lob
-  @Type(type = "org.hibernate.type.ImageType")
-  private byte[] content;
-
   private String name;
+
+  @ElementCollection
+  private List<String> basicCharacteristics = new ArrayList<>();
 }

@@ -1,8 +1,11 @@
 package com.eshop.app.model.user;
 
+import com.eshop.app.exceptions.ImageException;
 import com.eshop.app.exceptions.UserException;
 import com.eshop.app.exceptions.UserException.UserExceptionProfile;
-import com.eshop.app.model.product.ProductCategory;
+import com.eshop.app.model.category.Category;
+import com.eshop.app.model.image.Image;
+import com.eshop.app.model.image.ImageService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final ImageService imageService;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, ImageService imageService) {
     this.userRepository = userRepository;
+    this.imageService = imageService;
   }
 
   public List<User> findAllByRole(UserRole userRole) {
@@ -31,15 +36,17 @@ public class UserService {
     return user;
   }
 
-  public User addNewManager(String email, ProductCategory productCategory) {
+  public User addNewManager(String email, Category category) throws ImageException {
 
-    User newUser = new User(null, email, email, UserRole.MANAGER, productCategory);
+    Image image = imageService.getDefaultProfilePicture();
+    User newUser = new User(null, email, email, UserRole.MANAGER, category, image);
     return userRepository.save(newUser);
   }
 
-  public User addNewAdmin(String email) {
+  public User addNewAdmin(String email) throws ImageException {
 
-    User newUser = new User(null, email, email, UserRole.ADMIN, null);
+    Image image = imageService.getDefaultProfilePicture();
+    User newUser = new User(null, email, email, UserRole.ADMIN, null, image);
     return userRepository.save(newUser);
   }
 
@@ -53,5 +60,9 @@ public class UserService {
 
   public void delete(User user) {
     userRepository.delete(user);
+  }
+
+  public List<User> findByCategory(Category category) {
+    return userRepository.findByCategory(category);
   }
 }

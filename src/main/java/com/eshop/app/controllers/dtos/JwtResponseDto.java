@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DAO for JWT.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CommentForm {
+public class JwtResponseDto {
 
-  private String text;
+  private String token;
 }

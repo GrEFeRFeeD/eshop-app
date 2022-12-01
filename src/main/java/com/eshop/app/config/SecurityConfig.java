@@ -72,12 +72,14 @@ public class SecurityConfig {
     
         .authorizeRequests()
         .antMatchers("/authenticate", "/oauth2/facebook/v15.0").permitAll()
-        .antMatchers(HttpMethod.GET, "/products", "/products/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/products", "/products/**",
+            "/categories", "/categories/**", "/images/**").permitAll()
         .antMatchers("/basket", "/basket/**").hasRole("CUSTOMER")
         .antMatchers(HttpMethod.POST, "/products/{product-id}/reviews",
             "/products/{product-id}/reviews/{review-id}").hasRole("CUSTOMER")
+        .antMatchers(HttpMethod.POST, "/categories", "/users/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/categories/**", "/users/**").hasRole("ADMIN")
         .antMatchers("/products", "/products/**").hasAnyRole("MANAGER", "ADMIN")
-        .antMatchers("/users/**").hasRole("ADMIN")
         .anyRequest().authenticated().and()
 
         // Add custom handling for unauthenticated and access denied errors

@@ -1,6 +1,5 @@
 package com.eshop.app.controllers.dtos;
 
-import com.eshop.app.model.comment.Comment;
 import com.eshop.app.model.report.Report;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
@@ -22,6 +21,7 @@ public class ReviewDto {
   private UserDto user;
   private String text;
   private Integer grade;
+  private Long product;
   private List<CommentDto> comments;
 
   @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ssZ")
@@ -33,5 +33,6 @@ public class ReviewDto {
     this.grade = report.getGrade();
     this.comments = report.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     this.date = report.getDate();
+    this.product = report.getProduct().getId();
   }
 }

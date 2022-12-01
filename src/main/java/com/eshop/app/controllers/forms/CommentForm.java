@@ -1,4 +1,4 @@
-package com.eshop.app.controllers.dtos;
+package com.eshop.app.controllers.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class QuestionForm {
+public class CommentForm {
 
   private String text;
 }

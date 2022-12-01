@@ -2,6 +2,8 @@ jwt:
   secret: ${JWT_SECRET}
   validity: ${JWT_VALIDITY}
 
+FIRST_ADMIN_EMAIL: ${FIRST_ADMIN_EMAIL}
+
 spring:
   security:
     oauth2:
@@ -16,5 +18,14 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: ${HIBERNATE_DDL_AUTO}
     database: postgresql
+
+  datasource:
+    platform: postgres
+    url: "jdbc:postgresql://postgresql:${DATABASE_PORT}/${POSTGRES_DB}"
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+    continue-on-error: true

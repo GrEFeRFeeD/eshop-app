@@ -1,15 +1,10 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.controllers.dtos.AdminDto;
-import com.eshop.app.controllers.dtos.CustomerDto;
 import com.eshop.app.controllers.dtos.FacebookOauthInfoDto;
-import com.eshop.app.controllers.dtos.JwtRequest;
-import com.eshop.app.controllers.dtos.JwtResponse;
-import com.eshop.app.controllers.dtos.ManagerDto;
+import com.eshop.app.controllers.dtos.JwtRequestDto;
+import com.eshop.app.controllers.dtos.JwtResponseDto;
 import com.eshop.app.exceptions.SecurityException;
 import com.eshop.app.exceptions.SecurityException.SecurityExceptionProfile;
-import com.eshop.app.exceptions.UserException;
-import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
 import com.eshop.app.security.JwtUserDetailsService;
@@ -23,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,17 +57,17 @@ public class JwtAuthenticationController {
    * Method that mappings the authentication request through generating
    * JWT by Facebook Token.
    *
-   * @param jwtRequest object with facebookToken field - gained by user oauth2 token
+   * @param jwtRequestDto object with facebookToken field - gained by user oauth2 token
    * @return JWT
    */
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(
-      @RequestBody JwtRequest jwtRequest) {
+      @RequestBody JwtRequestDto jwtRequestDto) {
 
     Map<FacebookScopes, String> userScopes;
     try {
       userScopes = facebookUtil
-          .getScope(jwtRequest.getFacebookToken());
+          .getScope(jwtRequestDto.getFacebookToken());
     } catch (RestClientException e) {
       throw new SecurityException(SecurityExceptionProfile.BAD_FACEBOOK_TOKEN);
     }
@@ -86,9 +80,9 @@ public class JwtAuthenticationController {
     final JwtUserDetails userDetails = (JwtUserDetails) userDetailsService
         .loadUserByEmailAndName(email, name);
 
-    JwtResponse jwtResponse = new JwtResponse(jwtUtil.generateToken(userDetails));
+    JwtResponseDto jwtResponseDto = new JwtResponseDto(jwtUtil.generateToken(userDetails));
 
-    return ResponseEntity.ok(jwtResponse);
+    return ResponseEntity.ok(jwtResponseDto);
   }
 
   private void authenticate(String username) {
@@ -97,26 +91,6 @@ public class JwtAuthenticationController {
           new UsernamePasswordAuthenticationToken(username, username));
     } catch (BadCredentialsException e) {
       throw new SecurityException(SecurityExceptionProfile.BAD_CREDENTIALS);
-    }
-  }
-
-  /**
-   * GET request for getting info about current User.
-   *
-   * @param authentication - Spring security auth object.
-   *
-   * @return User - user object with current info.
-   */
-  @GetMapping("/me")
-  public ResponseEntity<?> getMyself(Authentication authentication) throws UserException {
-
-    JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-    User user = userService.findByEmail(jwtUserDetails.getEmail());
-
-    switch (user.getRole()) {
-      case ADMIN: return ResponseEntity.ok(new AdminDto(user));
-      case MANAGER: return ResponseEntity.ok(new ManagerDto(user));
-      default: return ResponseEntity.ok(new CustomerDto(user));
     }
   }
 
