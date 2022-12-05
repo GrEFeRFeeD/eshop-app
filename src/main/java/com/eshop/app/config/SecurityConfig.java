@@ -76,7 +76,7 @@ public class SecurityConfig {
             "/categories", "/categories/**", "/images/**").permitAll()
         .antMatchers("/basket", "/basket/**").hasRole("CUSTOMER")
         .antMatchers(HttpMethod.POST, "/products/{product-id}/reviews",
-            "/products/{product-id}/reviews/{review-id}").hasRole("CUSTOMER")
+            "/products/{product-id}/reviews/{review-id}/comments").hasRole("CUSTOMER")
         .antMatchers(HttpMethod.POST, "/categories", "/users/**").hasRole("ADMIN")
         .antMatchers(HttpMethod.DELETE, "/categories/**", "/users/**").hasRole("ADMIN")
         .antMatchers("/products", "/products/**").hasAnyRole("MANAGER", "ADMIN")

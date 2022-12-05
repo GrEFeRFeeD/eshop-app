@@ -1,5 +1,9 @@
 package com.eshop.app.security;
 
+import com.eshop.app.exceptions.ImageException;
+import com.eshop.app.model.image.Image;
+import com.eshop.app.model.image.ImageRepository;
+import com.eshop.app.model.image.ImageService;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserRepository;
 import com.eshop.app.model.user.UserRole;
@@ -24,6 +28,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private ImageService imageService;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -53,7 +60,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     Set<GrantedAuthority> authorities = new HashSet<>();
 
     if (user == null) {
-      user = new User(null, email, email, UserRole.CUSTOMER, null, null);
+      Image image = null;
+      try {
+        image = imageService.getDefaultProfilePicture();
+      } catch (ImageException e) {
+        System.out.println("Catch image exception while loading the user " + email + "! " + e);
+      }
+      user = new User(null, email, email, UserRole.CUSTOMER, null, image);
       user = userRepository.save(user);
     }
 

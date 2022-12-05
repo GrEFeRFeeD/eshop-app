@@ -4,6 +4,7 @@ import com.eshop.app.controllers.dtos.CategoryDto;
 import com.eshop.app.controllers.dtos.CategoryListDto;
 import com.eshop.app.controllers.forms.CategoryForm;
 import com.eshop.app.exceptions.CategoryException;
+import com.eshop.app.exceptions.CategoryException.CategoryExceptionProfile;
 import com.eshop.app.model.category.Category;
 import com.eshop.app.model.category.CategoryService;
 import java.util.List;
@@ -41,7 +42,7 @@ public class CategoryController {
   }
 
   @GetMapping("/categories/{category-id}")
-  public ResponseEntity<CategoryDto> getCategoryCharacteristics(@PathVariable("category-name") Long id)
+  public ResponseEntity<CategoryDto> getCategoryCharacteristics(@PathVariable("category-id") Long id)
       throws CategoryException {
 
     Category category = categoryService.findById(id);

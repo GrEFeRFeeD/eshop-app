@@ -7,13 +7,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class CategoryExceptionHandler extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(value = ProductException.class)
+  @ExceptionHandler(value = CategoryException.class)
   public ResponseEntity<Object> handleCategoryException(CategoryException exception,
       WebRequest webRequest) {
 

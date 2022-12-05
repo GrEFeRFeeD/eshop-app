@@ -45,4 +45,16 @@ public class User {
   @ManyToOne
   @JoinColumn(name = "image_id")
   private Image image;
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", email='" + email + '\'' +
+        ", role=" + role +
+        ", category=" + category +
+        ", image=" + image.getName() +
+        '}';
+  }
 }
