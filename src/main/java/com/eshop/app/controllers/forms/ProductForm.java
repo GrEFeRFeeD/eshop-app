@@ -16,6 +16,5 @@ public class ProductForm {
   private String description;
   private Double price;
   private Long image;
-  private Long category;
   private List<CharacteristicForm> characteristics;
 }

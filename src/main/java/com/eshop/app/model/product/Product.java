@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "products")
@@ -28,6 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Product {
 
   @Id
@@ -47,6 +50,6 @@ public class Product {
   @JoinColumn(name = "image_id")
   private Image image;
 
-  @OneToMany(mappedBy = "product")
+  @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
   private List<Characteristic> characteristics = new ArrayList<>();
 }

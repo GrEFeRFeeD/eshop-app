@@ -26,6 +26,7 @@ public class ProductDto {
     this.image = product.getImage().getId();
     this.name = product.getName();
     this.description = product.getDescription();
+    this.price = product.getPrice();
     this.characteristics = product.getCharacteristics().stream().map(CharacteristicDto::new).collect(
         Collectors.toList());
   }

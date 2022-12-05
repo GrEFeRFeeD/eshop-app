@@ -77,11 +77,11 @@ public class ProductController {
   }
 
   @GetMapping("/products/{product-id}")
-  public ResponseEntity<Product> getProductById(@PathVariable("product-id") Long id)
+  public ResponseEntity<ProductDto> getProductById(@PathVariable("product-id") Long id)
       throws ProductException {
 
     Product product = productService.findById(id);
-    return ResponseEntity.ok(product);
+    return ResponseEntity.ok(new ProductDto(product));
   }
 
   @GetMapping("/products/{product-id}/reviews")
@@ -200,14 +200,10 @@ public class ProductController {
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());
 
-    Product product = productService.obtainFrom(productForm);
+    Product product = new Product();
+    product.setCategory(user.getCategory());
 
-    if (user.getCategory() != null) {
-      product.setCategory(user.getCategory());
-    } else {
-      Category category = categoryService.findById(productForm.getCategory());
-      product.setCategory(category);
-    }
+    productService.obtainFromFormToObject(product, productForm);
 
     product = productService.save(product);
     return ResponseEntity.ok(new ProductDto(product));
