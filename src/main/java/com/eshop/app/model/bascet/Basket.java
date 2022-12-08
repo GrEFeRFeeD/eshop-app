@@ -23,7 +23,7 @@ import lombok.Setter;
 public class Basket {
 
   @EmbeddedId
-  private BasketKey basketKey;
+  private BasketKey basketKey = new BasketKey();
 
   @ManyToOne
   @JoinColumn(name = "user_id")

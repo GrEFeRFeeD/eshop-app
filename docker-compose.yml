@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  application:
+    build: .
+    ports:
+      - ${APPLICATION_PORT}:${APPLICATION_PORT}
+    volumes:
+      - ./:/app
+    env_file:
+      - api.env
+
+  postgresql:
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    image: postgres:15.0
+    volumes:
+      - postgresql-data:/var/lib/postgres
+    env_file:
+      - api.env
+
+volumes:
+  postgresql-data:
