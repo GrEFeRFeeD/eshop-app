@@ -77,7 +77,7 @@ public class ReportService {
 
   }
 
-  public List<Report> findByUser(User user) {
-    return reportRepository.findByUser(user);
+  public List<Report> findByUserAndType(User user, ReportType type) {
+    return reportRepository.findByUserAndType(user, type);
   }
 }

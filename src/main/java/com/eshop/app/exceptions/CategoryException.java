@@ -13,7 +13,7 @@ public class CategoryException extends Exception {
     CATEGORY_NOT_FOUND("category_not_found",
         "Category by given id was not found.", HttpStatus.NOT_FOUND),
 
-    CATEGORY_IS_IN_USE("category_is_in_user",
+    CATEGORY_IS_IN_USE("category_is_in_use",
         "There are entities in the system that use the category.", HttpStatus.BAD_REQUEST);
 
     private final String exceptionName;

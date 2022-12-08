@@ -15,10 +15,12 @@ public class AdminDto {
   private Long id;
   private String name;
   private String email;
+  private Long image;
 
   public AdminDto(User user) {
     this.id = user.getId();
     this.name = user.getName();
     this.email = user.getEmail();
+    this.image = user.getImage().getId();
   }
 }

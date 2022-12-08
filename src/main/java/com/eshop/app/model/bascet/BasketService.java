@@ -22,14 +22,19 @@ public class BasketService {
 
   public Basket findById(User user, Product product) {
 
-    Basket basket = basketRepository.findById(new BasketKey(user.getId(), product.getId()))
-        .orElse(getEmptySavedBasket(user, product));
+    System.out.println("FINDING BY ID");
+    Basket basket = basketRepository.findByUserAndProduct(user, product);
+    if (basket == null) {
+      basket = getEmptySavedBasket(user, product);
+    }
+    System.out.println("SUCC FOUND");
 
     return basket;
   }
 
   private Basket getEmptySavedBasket(User user, Product product) {
-    return basketRepository.save(new Basket(null, user, product, 0));
+    System.out.println("CREATE NEW ONE");
+    return basketRepository.save(new Basket(new BasketKey(), user, product, 0));
   }
 
   public Basket save(Basket basket) {

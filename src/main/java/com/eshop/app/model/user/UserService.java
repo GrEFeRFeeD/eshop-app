@@ -65,4 +65,8 @@ public class UserService {
   public List<User> findByCategory(Category category) {
     return userRepository.findByCategory(category);
   }
+
+  public User save(User user) {
+    return userRepository.save(user);
+  }
 }

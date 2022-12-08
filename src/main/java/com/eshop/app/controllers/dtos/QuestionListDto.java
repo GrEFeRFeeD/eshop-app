@@ -12,9 +12,9 @@ import lombok.Setter;
 @Setter
 public class QuestionListDto {
 
-  private List<QuestionDto> reviews;
+  private List<QuestionDto> questions;
 
-  public QuestionListDto(List<Report> reviews) {
-    this.reviews = reviews.stream().map(QuestionDto::new).collect(Collectors.toList());
+  public QuestionListDto(List<Report> questions) {
+    this.questions = questions.stream().map(QuestionDto::new).collect(Collectors.toList());
   }
 }

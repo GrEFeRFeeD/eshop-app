@@ -1,5 +1,6 @@
 package com.eshop.app.controllers;
 
+import com.eshop.app.controllers.dtos.QuestionListDto;
 import com.eshop.app.controllers.forms.CommentForm;
 import com.eshop.app.controllers.dtos.ProductDto;
 import com.eshop.app.controllers.forms.ProductForm;
@@ -28,8 +29,10 @@ import com.eshop.app.model.report.ReportType;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -81,6 +84,8 @@ public class ProductController {
       throws ProductException {
 
     Product product = productService.findById(id);
+    System.out.println("PRODUCT VIA GET     = " + product);
+    System.out.println("PRODUCT VIA GET DTO = " + new ProductDto(product));
     return ResponseEntity.ok(new ProductDto(product));
   }
 
@@ -90,12 +95,15 @@ public class ProductController {
 
     Product product = productService.findById(id);
     List<Report> reviews = reportService.findByProductAndType(product, ReportType.REVIEW);
+
     return ResponseEntity.ok(new ReviewListDto(reviews));
   }
 
   @PostMapping("/products/{product-id}/reviews")
-  public ResponseEntity<ReviewDto> addReviewToProduct(@PathVariable("product-id") Long id,
-      @RequestBody ReviewForm reviewForm, Authentication authentication)
+  public ResponseEntity<ReviewDto> addReviewToProduct(
+      @PathVariable("product-id") Long id,
+      @RequestBody ReviewForm reviewForm,
+      Authentication authentication)
       throws ProductException, UserException {
 
     Product product = productService.findById(id);
@@ -106,6 +114,7 @@ public class ProductController {
     Report review = reportService.obtainFrom(reviewForm);
     review.setProduct(product);
     review.setUser(user);
+    review.setType(ReportType.REVIEW);
     review = reportService.save(review);
 
     return ResponseEntity.ok(new ReviewDto(review));
@@ -115,7 +124,7 @@ public class ProductController {
   public ResponseEntity<ReviewDto> applyToReview(
       @PathVariable("product-id") Long productId,
       @PathVariable("review-id") Long reviewId,
-      @RequestBody CommentForm commentForm,
+      @Valid @RequestBody CommentForm commentForm,
       Authentication authentication) throws ProductException, ReportException, UserException {
 
     Product product = productService.findById(productId);
@@ -133,23 +142,25 @@ public class ProductController {
     comment.setReport(review);
     comment = commentService.save(comment);
 
-    review = reportService.findReviewById(comment.getId());
+    review = reportService.findReviewById(review.getId());
 
     return ResponseEntity.ok(new ReviewDto(review));
   }
 
   @GetMapping("/products/{product-id}/questions")
-  public ResponseEntity<ReviewListDto> getQuestionsByProduct(@PathVariable("product-id") Long id)
+  public ResponseEntity<QuestionListDto> getQuestionsByProduct(@PathVariable("product-id") Long id)
       throws ProductException {
 
     Product product = productService.findById(id);
-    List<Report> reviews = reportService.findByProductAndType(product, ReportType.QUESTION);
-    return ResponseEntity.ok(new ReviewListDto(reviews));
+    List<Report> questions = reportService.findByProductAndType(product, ReportType.QUESTION);
+    return ResponseEntity.ok(new QuestionListDto(questions));
   }
 
   @PostMapping("/products/{product-id}/questions")
-  public ResponseEntity<QuestionDto> addQuestionToProduct(@PathVariable("product-id") Long id,
-      @RequestBody QuestionForm questionForm, Authentication authentication)
+  public ResponseEntity<QuestionDto> addQuestionToProduct(
+      @PathVariable("product-id") Long id,
+      @Valid @RequestBody QuestionForm questionForm,
+      Authentication authentication)
       throws ProductException, UserException {
 
     Product product = productService.findById(id);
@@ -160,16 +171,17 @@ public class ProductController {
     Report question = reportService.obtainFrom(questionForm);
     question.setProduct(product);
     question.setUser(user);
+    question.setType(ReportType.QUESTION);
     question = reportService.save(question);
 
     return ResponseEntity.ok(new QuestionDto(question));
   }
 
   @PostMapping("/products/{product-id}/questions/{question-id}/comments")
-  public ResponseEntity<ReviewDto> applyToQuestion(
+  public ResponseEntity<QuestionDto> applyToQuestion(
       @PathVariable("product-id") Long productId,
       @PathVariable("question-id") Long questionId,
-      @RequestBody CommentForm commentForm,
+      @Valid @RequestBody CommentForm commentForm,
       Authentication authentication) throws ProductException, ReportException, UserException {
 
     Product product = productService.findById(productId);
@@ -187,20 +199,21 @@ public class ProductController {
     comment.setReport(question);
     comment = commentService.save(comment);
 
-    question = reportService.findQuestionById(comment.getId());
+    question = reportService.findQuestionById(question.getId());
 
-    return ResponseEntity.ok(new ReviewDto(question));
+    return ResponseEntity.ok(new QuestionDto(question));
   }
 
   @PostMapping("/products")
-  public ResponseEntity<ProductDto> addProduct(@RequestBody ProductForm productForm,
+  public ResponseEntity<ProductDto> addProduct(
+      @Valid @RequestBody ProductForm productForm,
       Authentication authentication)
       throws UserException, ProductException, ImageException, CategoryException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());
 
-    Product product = new Product();
+    Product product = productService.save(new Product());
     product.setCategory(user.getCategory());
 
     productService.obtainFromFormToObject(product, productForm);
@@ -212,7 +225,7 @@ public class ProductController {
   @PostMapping("/products/{product-id}")
   public ResponseEntity<ProductDto> editProduct(
       @PathVariable("product-id") Long id,
-      @RequestBody ProductForm productForm,
+      @Valid @RequestBody ProductForm productForm,
       Authentication authentication) throws UserException, ProductException, ImageException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
@@ -230,8 +243,10 @@ public class ProductController {
   }
 
   @DeleteMapping("/products/{product-id}")
-  public ResponseEntity<ProductDto> deleteProduct(@PathVariable("product-id") Long id,
-      Authentication authentication) throws ProductException, UserException {
+  public ResponseEntity<ProductDto> deleteProduct(
+      @PathVariable("product-id") Long id,
+      Authentication authentication)
+      throws ProductException, UserException {
 
     Product product = productService.findById(id);
 

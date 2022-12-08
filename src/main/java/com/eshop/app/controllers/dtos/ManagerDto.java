@@ -17,13 +17,15 @@ public class ManagerDto {
   private String email;
   private String name;
   private UserRole role;
-  private String category;
+  private Long category;
+  private Long image;
 
   public ManagerDto(User user) {
     this.id = user.getId();
     this.email = user.getEmail();
     this.name = user.getName();
     this.role = user.getRole();
-    this.category = user.getCategory().getName();
+    this.category = user.getCategory().getId();
+    this.image = user.getImage().getId();
   }
 }

@@ -12,6 +12,7 @@ import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -49,7 +50,8 @@ public class CustomerController {
   }
 
   @PostMapping("/basket")
-  public ResponseEntity<BasketDto> addItemToBasket(@RequestBody BasketDto basketDto,
+  public ResponseEntity<BasketDto> addItemToBasket(
+      @Valid @RequestBody BasketDto basketDto,
       Authentication authentication)
       throws ProductException, UserException {
 
@@ -61,12 +63,13 @@ public class CustomerController {
   }
 
   @DeleteMapping("/basket")
-  public ResponseEntity<BasketDto> deleteItemFromBasket(@RequestBody BasketDto basketDto,
+  public ResponseEntity<BasketDto> deleteItemFromBasket(@Valid @RequestBody BasketDto basketDto,
       Authentication authentication) throws UserException, ProductException {
 
     Basket basket = getBasketByDto(basketDto, authentication);
 
     basket.setCount(Math.max(0, basket.getCount() - basketDto.getCount()));
+    basket = basketService.save(basket);
 
     if (basket.getCount() == 0) {
       basketService.delete(basket);

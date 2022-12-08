@@ -31,6 +31,7 @@ public class ReviewDto {
     this.id = report.getId();
     this.user = new UserDto(report.getUser());
     this.grade = report.getGrade();
+    this.text = report.getText();
     this.comments = report.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     this.date = report.getDate();
     this.product = report.getProduct().getId();

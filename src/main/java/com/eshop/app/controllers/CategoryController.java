@@ -8,6 +8,7 @@ import com.eshop.app.exceptions.CategoryException.CategoryExceptionProfile;
 import com.eshop.app.model.category.Category;
 import com.eshop.app.model.category.CategoryService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,7 @@ public class CategoryController {
   }
 
   @PostMapping("/categories")
-  public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryForm categoryForm) {
+  public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryForm categoryForm) {
 
     Category category = categoryService.obtainFrom(categoryForm);
     return ResponseEntity.ok(new CategoryDto(category));

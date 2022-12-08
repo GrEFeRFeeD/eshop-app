@@ -18,6 +18,7 @@ import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -49,7 +50,7 @@ public class AdminController {
   }
 
   @PostMapping("/users/managers")
-  public ResponseEntity<ManagerDto> addNewManager(@RequestBody NewManagerDto newManagerDto)
+  public ResponseEntity<ManagerDto> addNewManager(@Valid @RequestBody NewManagerDto newManagerDto)
       throws UserException, CategoryException, ImageException {
 
     Category category = categoryService.findById(newManagerDto.getCategory());
@@ -57,13 +58,19 @@ public class AdminController {
     User user;
     try {
       user = userService.findByEmail(newManagerDto.getEmail());
+
+      if (user.getRole() != UserRole.MANAGER) {
+        throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
+      }
+
+      user.setCategory(category);
+      user = userService.save(user);
     } catch (UserException e) {
 
       user = userService.addNewManager(newManagerDto.getEmail(), category);
-      return ResponseEntity.ok(new ManagerDto(user));
     }
 
-    throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
+    return ResponseEntity.ok(new ManagerDto(user));
   }
 
   @DeleteMapping("/users/managers/{manager-id}")
@@ -89,7 +96,7 @@ public class AdminController {
   }
 
   @PostMapping("/users/admins")
-  public ResponseEntity<AdminDto> addNewAdmin(@RequestBody NewAdminDto adminDto)
+  public ResponseEntity<AdminDto> addNewAdmin(@Valid @RequestBody NewAdminDto adminDto)
       throws UserException, ImageException {
 
     User user;

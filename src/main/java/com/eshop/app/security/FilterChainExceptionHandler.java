@@ -1,5 +1,6 @@
 package com.eshop.app.security;
 
+import com.eshop.app.exceptions.SecurityException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

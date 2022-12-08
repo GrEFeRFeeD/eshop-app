@@ -10,6 +10,7 @@ import com.eshop.app.model.characteristic.CharacteristicService;
 import com.eshop.app.model.image.ImageService;
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.report.ReportService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,19 +65,26 @@ public class ProductService {
             .map(characteristicService::createCharacteristic)
             .collect(Collectors.toList());
 
-    product.setCharacteristics(characteristics);
-
-    if (checkBasicCharacteristicsPresence(product)) {
-      return product;
+    if (!checkBasicCharacteristicsPresence(product.getCategory().getBasicCharacteristics(), characteristics)) {
+      throw new ProductException(ProductExceptionProfile.BASIC_CHARACTERISTICS_NOT_COVERED);
     }
 
-    throw new ProductException(ProductExceptionProfile.BASIC_CHARACTERISTICS_NOT_COVERED);
+    characteristicService.deleteAll(product.getCharacteristics());
+
+    characteristics.forEach(c -> {
+      c.setProduct(product);
+      characteristicService.save(c);
+    });
+
+    product.setCharacteristics(characteristics);
+
+    return product;
   }
 
-  private boolean checkBasicCharacteristicsPresence(Product product) {
+  private static boolean checkBasicCharacteristicsPresence(List<String> basic, List<Characteristic> characteristics) {
 
-    List<String> basicCharacteristics = product.getCategory().getBasicCharacteristics();
-    for (Characteristic characteristic : product.getCharacteristics()) {
+    List<String> basicCharacteristics = new ArrayList<>(basic);
+    for (Characteristic characteristic : characteristics) {
       basicCharacteristics.remove(characteristic.getCharacteristic());
     }
 
@@ -93,5 +101,7 @@ public class ProductService {
 
     List<Report> reports = reportService.findByProduct(product);
     reportService.deleteAll(reports);
+
+    productRepository.delete(product);
   }
 }

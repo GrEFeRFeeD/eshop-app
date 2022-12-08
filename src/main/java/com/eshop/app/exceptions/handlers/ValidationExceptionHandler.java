@@ -14,6 +14,7 @@ public class ValidationExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ExceptionResponse> handleValidationException(MethodArgumentNotValidException exception) {
 
+    System.out.println("ALL ERRORS = " + exception.getBindingResult().getAllErrors());
     ObjectError objectError = exception.getBindingResult().getAllErrors().get(0);
     String message = "'" + ((FieldError) objectError).getField() + "': " + objectError.getDefaultMessage();
 

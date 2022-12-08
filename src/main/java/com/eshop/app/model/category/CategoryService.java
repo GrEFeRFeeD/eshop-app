@@ -53,10 +53,12 @@ public class CategoryService {
     List<Product> products = productService.findByCategory(category);
     List<User> users = userService.findByCategory(category);
 
-    if (products.isEmpty() && users.isEmpty()) {
-      categoryRepository.delete(category);
+    System.out.println("PRODUCTS = " + products);
+    System.out.println("USERS    = " + users);
+    if (!(products.isEmpty() && users.isEmpty())) {
+      throw new CategoryException(CategoryExceptionProfile.CATEGORY_IS_IN_USE);
     }
 
-    throw new CategoryException(CategoryExceptionProfile.CATEGORY_IS_IN_USE);
+    categoryRepository.delete(category);
   }
 }

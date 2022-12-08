@@ -72,11 +72,17 @@ public class SecurityConfig {
     
         .authorizeRequests()
         .antMatchers("/authenticate", "/oauth2/facebook/v15.0").permitAll()
+
         .antMatchers(HttpMethod.GET, "/products", "/products/**",
-            "/categories", "/categories/**", "/images/**").permitAll()
+            "/categories", "/categories/**", "/images/**",
+            "/product/{product-id}/reviews", "/product/{product-id}/questions").permitAll()
+
         .antMatchers("/basket", "/basket/**").hasRole("CUSTOMER")
+
         .antMatchers(HttpMethod.POST, "/products/{product-id}/reviews",
-            "/products/{product-id}/reviews/{review-id}/comments").hasRole("CUSTOMER")
+            "/products/{product-id}/reviews/{review-id}/comments",
+            "/products/{product-id}/questions").hasRole("CUSTOMER")
+
         .antMatchers(HttpMethod.POST, "/categories", "/users/**").hasRole("ADMIN")
         .antMatchers(HttpMethod.DELETE, "/categories/**", "/users/**").hasRole("ADMIN")
         .antMatchers("/products", "/products/**").hasAnyRole("MANAGER", "ADMIN")

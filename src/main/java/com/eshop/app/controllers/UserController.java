@@ -9,6 +9,7 @@ import com.eshop.app.controllers.dtos.UserDto;
 import com.eshop.app.exceptions.UserException;
 import com.eshop.app.model.report.Report;
 import com.eshop.app.model.report.ReportService;
+import com.eshop.app.model.report.ReportType;
 import com.eshop.app.model.user.User;
 import com.eshop.app.model.user.UserRole;
 import com.eshop.app.model.user.UserService;
@@ -58,7 +59,7 @@ public class UserController {
       throws UserException {
 
     User user = userService.findById(id);
-    List<Report> reviews = reportService.findByUser(user);
+    List<Report> reviews = reportService.findByUserAndType(user, ReportType.REVIEW);
     return ResponseEntity.ok(new ReviewListDto(reviews));
   }
 
@@ -67,7 +68,7 @@ public class UserController {
       throws UserException {
 
     User user = userService.findById(id);
-    List<Report> questions = reportService.findByUser(user);
+    List<Report> questions = reportService.findByUserAndType(user, ReportType.QUESTION);
     return ResponseEntity.ok(new QuestionListDto(questions));
   }
 }
