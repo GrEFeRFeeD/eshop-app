@@ -38,6 +38,10 @@ public class ImageService {
     return imageRepository.save(image);
   }
 
+  public Image save(Image image) {
+    return imageRepository.save(image);
+  }
+
   public Image findById(Long id) throws ImageException {
     return imageRepository.findById(id).orElseThrow(() ->
         new ImageException(ImageExceptionProfile.IMAGE_NOT_FOUND));

@@ -3,6 +3,7 @@ package com.eshop.app.controllers;
 import com.eshop.app.controllers.dtos.AdminDto;
 import com.eshop.app.controllers.dtos.CustomerDto;
 import com.eshop.app.controllers.dtos.ManagerDto;
+import com.eshop.app.controllers.dtos.ProfileDto;
 import com.eshop.app.controllers.dtos.QuestionListDto;
 import com.eshop.app.controllers.dtos.ReviewListDto;
 import com.eshop.app.controllers.dtos.UserDto;
@@ -54,7 +55,7 @@ public class UserController {
       return ResponseEntity.ok(new ManagerDto(user));
     }
 
-    return ResponseEntity.ok(new UserDto(user));
+    return ResponseEntity.ok(new ProfileDto(user));
   }
 
   @PostMapping("/me")
@@ -74,7 +75,7 @@ public class UserController {
       return ResponseEntity.ok(new ManagerDto(user));
     }
 
-    return ResponseEntity.ok(new UserDto(user));
+    return ResponseEntity.ok(new ProfileDto(user));
   }
 
   @GetMapping("/users/{user-id}")
