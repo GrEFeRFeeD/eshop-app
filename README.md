@@ -10,6 +10,7 @@
     * [Review](#review)
     * [Question](#question)
     * [Product](#product)
+  * [Exceptions](#exceptions)
   * [Authentication & authorization](#authentication--authorization)
   * [Implemented API](#implemented-api)
     * [Guest](#guest)
@@ -198,6 +199,134 @@ Used for commenting reviews and answering the questions.
     ]
 }
 </pre>
+
+### Exceptions
+
+All exceptions in API have next structure:
+<pre>
+{
+    "errorCode": "snake_case_meaningful_string",
+    "errorMessage": "English user friendly message"
+}
+</pre>
+
+You can face next exceptions during using the API:
+
+<table>
+  <thead align="center">
+    <tr>
+      <td>Http Response Status</td>
+      <td>Group (use case)</td>
+      <td>Error Code</td>
+      <td>Error Message</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" rowspan="8">400<br>(Business validation)</td>
+      <td align="center">Category</td>
+      <td align="center">category_is_in_use</td>
+      <td>There are entities in the system that use the category.</td>
+    </tr>
+    <tr>
+      <td align="center">Image</td>
+      <td align="center">temporary_store_failed</td>
+      <td>Access error - temporary store has failed.</td>
+    </tr>
+    <tr>
+      <td align="center">Product</td>
+      <td align="center">basic_characteristics_not_covered</td>
+      <td>Product characteristic list should contain at least basic category characteristics.</td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2">Report</td>
+      <td align="center">incompatible_review</td>
+      <td>Review by given id does not apply to given product.</td>
+    </tr>
+    <tr>
+      <td align="center">incompatible_question</td>
+      <td>Question by given id does not apply to given product.</td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="3">User</td>
+      <td align="center">user_has_another_role</td>
+      <td>User by given identifier already has another role.</td>
+    </tr>
+    <tr>
+      <td align="center">user_self_revoking</td>
+      <td>User can not revoke himself.</td>
+    </tr>
+    <tr>
+      <td align="center">foreign_category</td>
+      <td>Product by given id has another than user's category.</td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="8">401<br>(Authentication)</td>
+      <td align="center" rowspan="8">Auth</td>
+      <td align="center">not_authenticated</td>
+      <td>You are not authenticated to perform this action.</td>
+    </tr>
+    <tr>
+      <td align="center">bad_facebook_token</td>
+      <td>Invalid OAuth access token - cannot parse access token.</td>
+    </tr>
+    <tr>
+      <td align="center">bad_token</td>
+      <td>Token does not start with 'Bearer'.</td>
+    </tr>
+    <tr>
+      <td align="center">expired_token</td>
+      <td>Token has expired.</td>
+    </tr>
+    <tr>
+      <td align="center">bad_token_signature</td>
+      <td>Given JWT signature does not match locally computed signature.</td>
+    </tr>
+    <tr>
+      <td align="center">malformed_token</td>
+      <td>Unable to read JWT JSON value.</td>
+    </tr>
+    <tr>
+      <td align="center">unsupported_token</td>
+      <td>JWT in a particular format/configuration that does not match the format expected by the application.</td>
+    </tr>
+    <tr>
+      <td align="center">bad_credentials</td>
+      <td>Incorrect credentials.</td>
+    </tr>
+    <tr>
+      <td align="center">403<br>(Access denied)</td>
+      <td align="center">Auth</td>
+      <td align="center">not_authenticated</td>
+      <td>You are not authenticated to perform this action.</td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="5">404<br>(Wrong identifier)</td>
+      <td align="center">Category</td>
+      <td align="center">category_not_found</td>
+      <td>Category by given id was not found.</td>
+    </tr>
+    <tr>
+      <td align="center">Image</td>
+      <td align="center">image_not_found</td>
+      <td>Image by given id was not found.</td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2">Report</td>
+      <td align="center">review_not_found</td>
+      <td>Review by given identifier was not found.</td>
+    </tr>
+    <tr>
+      <td align="center">question_not_found</td>
+      <td>Question by given identifier was not found.</td>
+    </tr>
+    <tr>
+      <td align="center">User</td>
+      <td align="center">user_not_found</td>
+      <td>User by given identifier was not found.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Authentication & authorization
 
