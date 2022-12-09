@@ -27,10 +27,15 @@ public class ImageController {
   }
 
   @PostMapping("/images")
-  public ResponseEntity<ImageDto> uploadImage(@RequestParam("image") MultipartFile multipartImage)
+  public ResponseEntity<ImageDto> uploadImage(
+      @RequestParam("image") MultipartFile multipartImage,
+      @RequestParam("name") String name)
       throws ImageException {
 
     Image image = imageService.save(multipartImage);
+    image.setName(name);
+    image = imageService.save(image);
+
     return ResponseEntity.ok(new ImageDto(image));
   }
 

@@ -13,9 +13,6 @@ public class ProductException extends Exception {
     PRODUCT_NOT_FOUND("product_not_found",
         "Product by given identifier was not found.", HttpStatus.NOT_FOUND),
 
-    WRONG_CATEGORY("wrong_category",
-        "Category by given name was not found", HttpStatus.NOT_FOUND),
-
     BASIC_CHARACTERISTICS_NOT_COVERED("basic_characteristics_not_covered",
         "Product characteristic list should contain at least basic category characteristics.", HttpStatus.BAD_REQUEST);
 

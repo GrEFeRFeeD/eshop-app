@@ -51,7 +51,7 @@ public class AdminController {
 
   @PostMapping("/users/managers")
   public ResponseEntity<ManagerDto> addNewManager(@Valid @RequestBody NewManagerDto newManagerDto)
-      throws UserException, CategoryException, ImageException {
+      throws CategoryException, ImageException {
 
     Category category = categoryService.findById(newManagerDto.getCategory());
 

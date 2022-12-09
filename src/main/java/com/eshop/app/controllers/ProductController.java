@@ -208,7 +208,7 @@ public class ProductController {
   public ResponseEntity<ProductDto> addProduct(
       @Valid @RequestBody ProductForm productForm,
       Authentication authentication)
-      throws UserException, ProductException, ImageException, CategoryException {
+      throws UserException, ProductException, ImageException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());

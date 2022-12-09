@@ -39,9 +39,6 @@ public class JwtAuthenticationController {
   private final FacebookUtil facebookUtil;
   private final UserService userService;
 
-  /**
-   * Constructor.
-   */
   @Autowired
   public JwtAuthenticationController(AuthenticationManager authenticationManager,
       JwtUtil jwtUtil, JwtUserDetailsService userDetailsService,
@@ -53,13 +50,6 @@ public class JwtAuthenticationController {
     this.userService = userService;
   }
 
-  /**
-   * Method that mappings the authentication request through generating
-   * JWT by Facebook Token.
-   *
-   * @param jwtRequestDto object with facebookToken field - gained by user oauth2 token
-   * @return JWT
-   */
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(
       @RequestBody JwtRequestDto jwtRequestDto) {
@@ -94,12 +84,6 @@ public class JwtAuthenticationController {
     }
   }
 
-  /**
-   * GET request for getting application facebook client id.
-   *
-   * @param facebookClientId auto-injected from environmental variables facebook client id.
-   * @return DTO with simple string.
-   */
   @GetMapping("/oauth2/facebook/v15.0")
   public FacebookOauthInfoDto getFacebookClientId(
       @Value("${spring.security.oauth2.client.registration.facebook.clientId}")

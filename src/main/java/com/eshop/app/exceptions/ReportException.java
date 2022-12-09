@@ -19,8 +19,8 @@ public class ReportException extends Exception {
     QUESTION_NOT_FOUND("question_not_found",
         "Question by given identifier was not found.", HttpStatus.NOT_FOUND),
 
-    INCOMPATIBLE_QUESTION("incompatible_review",
-        "Review by given id does not apply to given product.", HttpStatus.BAD_REQUEST);
+    INCOMPATIBLE_QUESTION("incompatible_question",
+        "Question by given id does not apply to given product.", HttpStatus.BAD_REQUEST);
 
     private final String exceptionName;
     private final String exceptionMessage;
