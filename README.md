@@ -396,6 +396,9 @@ Response:
 }
 </pre>
 
+Possible [exception](#exceptions) groups:
+- Auth
+
 ##### Get all categories
 
 Request: `GET /categories`
@@ -410,6 +413,9 @@ Path parameters:
 - `category-id` - id of needed category to get
 
 Response: with [category dto](#category).
+
+Possible [exception](#exceptions) groups:
+- Category
 
 ##### Get all products list
 
@@ -426,6 +432,9 @@ URL parameters:
 
 Response: list of all [products](#product) with given `category`.
 
+Possible [exception](#exceptions) groups:
+- Category
+
 ##### Get product by id
 
 Request: `GET /products/{product-id}`
@@ -434,6 +443,9 @@ Path parameters:
 - `product-id` - id of product to get
 
 Response: with [product dto](#product)
+
+Possible [exception](#exceptions) groups:
+- Product
 
 ##### Get product reviews
 
@@ -444,6 +456,9 @@ Path parameters:
 
 Response: list of all [reviews](#review) with given `product-id`.
 
+Possible [exception](#exceptions) groups:
+- Product
+
 ##### Get product questions
 
 Request: `GET /products/{product-id}/questions`
@@ -453,6 +468,9 @@ Path parameters:
 
 Response: list of all [questions](#question) with given `product-id`.
 
+Possible [exception](#exceptions) groups:
+- Product
+
 ##### Get image
 
 Request: `GET /images/{image-id}`
@@ -461,6 +479,9 @@ Path parameters:
 - `image-id` - id of image to get
 
 Response: produces JPEG image.
+
+Possible [exception](#exceptions) groups:
+- Image
 
 #### Authenticated users
 
@@ -488,6 +509,9 @@ Response:
 }
 </pre>
 
+Possible [exception](#exceptions) groups:
+- Image
+
 ##### Get user by id
 
 Request: `GET /users/{user-id}`
@@ -496,6 +520,9 @@ Path parameters:
 - `user-id` - id of user to get
 
 Response: with [user](#user) or [manager](#manager) dto depending on user role.
+
+Possible [exception](#exceptions) groups:
+- User
 
 ##### Get user reviews by id
 
@@ -506,6 +533,9 @@ Path parameters:
 
 Response: with list of users [reviews](#review).
 
+Possible [exception](#exceptions) groups:
+- User
+
 ##### Get user questions by id
 
 Request: `GET /users/{user-id}/questions`
@@ -514,6 +544,9 @@ Path parameters:
 - `user-id` - id of user to get assigned questions
 
 Response: with list of users [questions](#question).
+
+Possible [exception](#exceptions) groups:
+- User
 
 ##### Get information about yourself
 
@@ -529,6 +562,10 @@ Request: `POST /me` with body:
 
 Response: with [user](#user) or [manager](#manager) dto depending on user role with `email` field.
 
+Possible [exception](#exceptions) groups:
+- Image
+- User
+
 ##### Applying for reviews
 
 Request: `POST /product/{product-id}/reviews/{review-id}/comments` with body:
@@ -540,13 +577,16 @@ Path parameters:
 
 Response: with affected [review dto](#review).
 
+Possible [exception](#exceptions) groups:
+- Product
+- Report
+- User
+
 #### Customer
 
 Customers can manipulate the basket and add reviews or questions to products.
 
-##### Basket managing
-
-###### Get basket items
+##### Get basket items
 
 Request: `GET /basket`
 
@@ -566,7 +606,10 @@ Response:
 }
 </pre>
 
-###### Add item to basket
+Possible [exception](#exceptions) groups:
+- User
+
+##### Add item to basket
 
 Request: 'POST /basket' with body:
 - `product-id` - id of product to add
@@ -580,7 +623,11 @@ Response:
 }
 </pre>
 
-###### Delete item from basket
+Possible [exception](#exceptions) groups:
+- Product
+- User
+
+##### Delete item from basket
 
 Request: `DELETE /basket` with body:
 - `product-id` - id of product to remove
@@ -594,6 +641,10 @@ Response:
 }
 </pre>
 
+Possible [exception](#exceptions) groups:
+- Product
+- User
+
 ##### Write own review
 
 Request: `POST /products/{product-id}/reviews` with body:
@@ -605,6 +656,10 @@ Path parameters:
 
 Response: with created [review dto](#review)
 
+Possible [exception](#exceptions) groups:
+- Product
+- Report
+
 ##### Ask a question
 
 Request: `POST /product/{product-id}/questions` with body:
@@ -614,6 +669,9 @@ Path parameters:
 - `product-id` - id of product to add question to
 
 Response: with created [question dto](#question)
+
+Possible [exception](#exceptions) groups:
+- Product
 
 #### Manager
 
@@ -634,6 +692,11 @@ Response: with created [product dto](#product)
 
 Created product will have the same category as the manager has.
 
+Possible [exception](#exceptions) groups:
+- Image
+- Product
+- User
+
 ##### Edit product
 
 Request: `POST /products/{product-id}` with body:
@@ -652,6 +715,11 @@ Response: with edited [product dto](#product)
 
 Reviews and questions assigned to this product won't be affected during editing.
 
+Possible [exception](#exceptions) groups:
+- Image
+- Product
+- User
+
 ##### Delete product
 
 Request: `DELETE /products/{product-id}`
@@ -663,6 +731,10 @@ Response: with deleted [Product Dto](#product)
 
 Reviews and questions assigned to this product will be automatically deleted.
 
+Possible [exception](#exceptions) groups:
+- Product
+- User
+
 ##### Question answering
 
 Request: `POST /products/{product-id}/questions/{question-id}/comments` with body:
@@ -673,6 +745,11 @@ Path parameters:
 - `question-id` - id of review to apply for
 
 Response: with affected [question dto](#question)
+
+Possible [exception](#exceptions) groups:
+- Product
+- Report
+- User
 
 #### Admin
 
@@ -695,6 +772,9 @@ Path parameters:
 
 Response: with deleted [category dto](#category). 
 
+Possible [exception](#exceptions) groups:
+- Category
+
 ##### Get list of managers
 
 Request: `GET /users/managers`
@@ -709,11 +789,18 @@ Request: `POST /users/managers` with body:
 
 Response: with added / edited [manager dto](#manager).
 
+Possible [exception](#exceptions) groups:
+- Category
+- Image
+
 ##### Revoke manager role
 
 Request: `DELETE /users/managers/{manager-id}`
 
 Response: with deleted [manager dto](#manager).
+
+Possible [exception](#exceptions) groups:
+- User
 
 ##### Get list of admins
 
@@ -727,11 +814,18 @@ Request: `POST /users/admins` with body:
 
 Response: with added [admin dto](#admin).
 
+Possible [exception](#exceptions) groups:
+- Image
+- User
+
 ##### Revoke admin role
 
 Request: `DELETE /users/admins/{admin-id}`
 
 Response: with deleted [admin dto](#admin).
+
+Possible [exception](#exceptions) groups:
+- User
 
 ## Setting-up the project
 This section describes all needed steps to launch the application.
