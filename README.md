@@ -4,14 +4,16 @@
 * [Story](#story)
 * [API](#api)
   * [Models](#models)
-    * [User](#user)
+    * [Users](#user)
     * [Comment](#comment)
+    * [Category](#category)
     * [Review](#review)
     * [Question](#question)
     * [Product](#product)
   * [Authentication & authorization](#authentication--authorization)
   * [Implemented API](#implemented-api)
     * [Guest](#guest)
+    * [Authenticated users](#authenticated-users)
     * [Customer](#customer-1)
     * [Manager](#manager-1)
     * [Admin](#admin-1)
@@ -66,25 +68,15 @@ Admin:
 
 ### Models
 
-#### User
+#### Users
 
-##### Customer
+##### User
 <pre>
 {
     "id": 12,
-    "email": "bebeb@be.beb",
     "name": "Beb Bebebb",
     "role": "BBBEEE",
-    "basket": [
-        {
-            "productId": 13,
-            "count": 2
-        },
-        {
-            "productId": 14,
-            "count": 1
-        }
-    ]
+    "image": 2
 }
 </pre>
 
@@ -92,107 +84,120 @@ Admin:
 <pre>
 {
     "id": 12,
-    "email": "bebeb@be.beb",
     "name": "Beb Bebebb",
-    "role": "BBBEEE",
-    "category": "Be"
-}
-</pre>
-
-##### Admin
-<pre>
-{
-    "id": 12,
-    "email": "bebeb@be.beb",
-    "name": "Beb Bebebb",
-    "role": "BBBEEE",
+    "role": "MANAGER",
+    "category": "Be",
+    "image": 2
 }
 </pre>
 
 #### Comment
-Used for commenting reviewes and answearing the questions.
+Used for commenting reviews and answering the questions.
 <pre>
 {
-    "id": 12,
+    "id": 1,
     "user": {
-        "id": 12,
-        "name": "Beb Bebebb",
-        "role": "BBBEEE"
+        "id": 3,
+        "name": "hehe",
+        "role": "CUSTOMER",
+        "image": 2
     },
-    "text": "be?"
+    "text": "text4",
+    "date": "2022-12-09@11:06:14+0000"
+}
+</pre>
+
+#### Category
+<pre>
+{
+    "id": 1,
+    "name": "cat1",
+    "basicCharacteristics": [
+        "be",
+        "bebe"
+    ]
 }
 </pre>
 
 #### Review
 <pre>
 {
-    "id": 123,
+    "id": 1,
     "user": {
-        "id": 12,
-        "name": "Beb Bebebb",
-        "role": "BBBEEE"
-    }
-    "text": "b e b e",
-    "grade": 4,
+        "id": 3,
+        "name": "ehe",
+        "role": "CUSTOMER",
+        "image": 2
+    },
+    "text": "text",
+    "grade": 1,
+    "product": 1,
     "comments": [
         {
-            "id": 12,
+            "id": 1,
             "user": {
-                "id": 12,
-                "name": "Beb Bebebb",
-                "role": "BBBEEE"
+                "id": 3,
+                "name": "hehe",
+                "role": "CUSTOMER",
+                "image": 2
             },
-            "text": "be?"
+            "text": "text4",
+            "date": "2022-12-09@11:06:14+0000"
         }
-    ]
+    ],
+    "date": "2022-12-09@11:06:11+0000"
 }
 </pre>
 
 #### Question
 <pre>
 {
-    "id": 123,
+    "id": 2,
     "user": {
-        "id": 12,
-        "name": "Beb Bebebb",
-        "role": "BBBEEE"
-    }
-    "text": "b e b e",
+        "id": 3,
+        "name": "bebebe",
+        "role": "CUSTOMER",
+        "image": 2
+    },
+    "text": "question",
+    "product": 1,
     "comments": [
         {
-            "id": 12,
+            "id": 2,
             "user": {
-                "id": 12,
-                "name": "Beb Bebebb",
-                "role": "BBBEEE"
+                "id": 2,
+                "name": "be",
+                "role": "MANAGER",
+                "image": 1
             },
-            "text": "be?"
+            "text": "q answear",
+            "date": "2022-12-09@11:07:04+0000"
         }
-    ]
+    ],
+    "date": "2022-12-09@11:06:54+0000"
 }
 </pre>
 
 #### Product:
 <pre>
 {
-    "id": 123,
-    "name": "be",
+    "id": 1,
+    "image": 1,
+    "name": "product1",
+    "description": "description",
     "price": 123.45,
-    "category": "CAT",
-    "description": "bebebe bebe bebebebeb",
     "characteristics": [
         {
-            "characteristic": "beb",
-            "value": "BeBeB"
+            "characteristic": "be",
+            "value": "be"
         },
         {
-            "characteristic": "be b be",
-            "value": "b b b e"
+            "characteristic": "bebe",
+            "value": "bebe"
         }
     ]
-    "reviews": []
-    "questions": []
-}</pre>
+}
+</pre>
 
 ### Authentication & authorization
 
@@ -220,7 +225,7 @@ To perform any authenticated or authorized request you should provide your Faceb
 
 `POST /authenticate`
 
-With requiered data parameter `{"facebookToken": "EAAHC..."}`.
+With required data parameter `{"facebookToken": "EAAHC..."}`.
 
 As the response you will get JSON Web Token as `{"token": "eyJhb..."}`.
 
@@ -232,7 +237,7 @@ Gained JWT should be put in request header as a parameter `Authorization` with v
 
 #### Edge cases
 
-You can face next exceptions while using JWT within yout request:
+You can face next exceptions while using JWT within youth request:
 - 401 - not_authenticated_exception 
 - 401 - bad_token_exception
 - 401 - expired_token_exception
@@ -248,67 +253,167 @@ This section describes all implemented endpoints grouped by users.
 
 Guests can only see the products or authenticate.
 
+##### Authentication
+
+Pass your facebook token to next endpoint to get JWT.
+
+Request: `POST /authentication` with body
+- `facebookToken` - token obtained from facebook
+
+Response:
+<pre>
+{
+    "token": "jwttoken..."
+}
+</pre>
+
+##### Get all categories
+
+Request: `GET /categories`
+
+Response: list of all [categories](#category).
+
+##### Get category by id
+
+Request: `GET /categories/{category-id}`
+
+Path parameters:
+- `category-id` - id of needed category to get
+
+Response: with [category dto](#category).
+
 ##### Get all products list
 
 Request: `GET /products`
 
 Response: list of all [products](#product).
 
-Possible errors: `exceptions do not supossed for this case`.
+##### Get products by category
 
-Supported filters (pass as an request param):
-- ?category=category-name - will request with products by given [category](#get-all-categories)
+Request: `GET /products?category=1`
+
+URL parameters:
+- `category` - id of category to get products with
+
+Response: list of all [products](#product) with given `category`.
 
 ##### Get product by id
 
 Request: `GET /products/{product-id}`
 
+Path parameters:
+- `product-id` - id of product to get
+
 Response: with [product dto](#product)
 
-Possible errors: 
-- `product_not_found`
+##### Get product reviews
 
-##### Get all categories
+Request: `GET /products/{product-id}/reviews`
 
-Request: `GET /categories`
+Path parameters:
+- `product-id` - id of product to get reviews from
 
-Response: {"categories": ["Category1", "Category2"]}.
+Response: list of all [reviews](#review) with given `product-id`.
 
-Possible errors: `exceptions do not supossed for this case`.
+##### Get product questions
 
-##### Get products by category
+Request: `GET /products/{product-id}/questions`
 
-- Просмотр списка товаров (+фильтры)
-- Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
-- Аутентификация
+Path parameters:
+- `product-id` - id of product to get questions from
 
-##### Authentication
+Response: list of all [questions](#question) with given `product-id`.
 
-Pass your facebook token to next endpoint to get JWT.
+##### Get image
 
-Request: `GET /authentication` with body
-- `facebookToken` - token obtained from facebook 
+Request: `GET /images/{image-id}`
 
-Response: `{"token: "bebe...."}`
+Path parameters:
+- `image-id` - id of image to get
 
-#### Customer
+Response: produces JPEG image.
 
-Manager has the same opportunities as Guest, but also can manage the own profile, basket and review products.
+#### Authenticated users
 
-##### Profile managing
+Such users as customer, manager etc. who have passed authentication can perform next actions no matter are they authorized or not.
 
-###### Get information about yourself
+By the default, user who have passed authentication and have not record about himself in the database will be recorded as new user with:
+- role - CUSTOMER
+- email - the one that is assigned in facebook
+- name - will be set same as email
+- image - will be set the default profile image
+
+In order to change `name` or `image` (profile picture) authenticated users can perform [`/POST me`](#edit-information-about-yourself) endpoint.
+
+##### Add image
+
+Request: `POST /images` with body:
+- `image` - key followed by the image file value
+- `name` - name of image to set
+
+Response:
+<pre>
+{
+    "id": 3,
+    "name": "bebebe"
+}
+</pre>
+
+##### Get user by id
+
+Request: `GET /users/{user-id}`
+
+Path parameters:
+- `user-id` - id of user to get
+
+Response: with [user](#user) or [manager](#manager) dto depending on user role.
+
+##### Get user reviews by id
+
+Request: `GET /users/{user-id}/reviews`
+
+Path parameters:
+- `user-id` - id of user to get assigned reviews
+
+Response: with list of users [reviews](#review).
+
+##### Get user questions by id
+
+Request: `GET /users/{user-id}/questions`
+
+Path parameters:
+- `user-id` - id of user to get assigned questions
+
+Response: with list of users [questions](#question).
+
+##### Get information about yourself
 
 Request: `GET /me`
 
-Response: with apropriate [Customer Dto](#customer)
+Response: with [user](#user) or [manager](#manager) dto depending on user role with `email` field.
 
-###### Edit information about yourself
+##### Edit information about yourself
 
-Request: 'POST /me/name' with body:
-- `name` - new name for your profile
+Request: `POST /me` with body:
+- `name` - new name to set
+- `image` - id of image to set
 
-Response: with apropriate [Customer Dto](#customer)
+Response: with [user](#user) or [manager](#manager) dto depending on user role with `email` field.
+
+##### Applying for reviews
+
+Request: `POST /product/{product-id}/reviews/{review-id}/comments` with body:
+- `text` - text of comment to apply
+
+Path parameters:
+- `product-id` - id of product who owns given review
+- `review-id` - id of review to apply for
+
+Response: with affected [review dto](#review).
+
+#### Customer
+
+Customers can manipulate the basket and add reviews or questions to products.
 
 ##### Basket managing
 
@@ -316,7 +421,21 @@ Response: with apropriate [Customer Dto](#customer)
 
 Request: `GET /basket`
 
-Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
+Response:
+<pre>
+{
+    "basket": [
+        {
+            "productId": 1,
+            "count": 6
+        },
+        {
+            "productId": 2,
+            "count": 3
+        }
+    ]
+}
+</pre>
 
 ###### Add item to basket
 
@@ -324,11 +443,13 @@ Request: 'POST /basket' with body:
 - `product-id` - id of product to add
 - `count` - count of product to add
 
-Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
-
-Posible errors:
-- product_not_found - in case product by given id was not found
-- validation_error - in case count is 0 or below
+Response:
+<pre>
+{
+    "productId": 2,
+    "count": 3
+}
+</pre>
 
 ###### Delete item from basket
 
@@ -336,174 +457,152 @@ Request: `DELETE /basket` with body:
 - `product-id` - id of product to remove
 - `count` - count of product to remove
 
-Response: `{"basket":[ {"product-id": 12, "count": 10} ]}`
+Response:
+<pre>
+{
+    "productId": 2,
+    "count": 1
+}
+</pre>
 
-Posible errors:
-- product_not_found - in case product by given id was not found
-- validation_error - in case count is 0 or below
-
-##### Product overviewing
-
-###### Get product reviews
-
-Request: `GET /products/{product-id}/reviews`
-
-Response: `{"reviews": { ... }}` - list of [Review Dto](#review)
-
-Possible errors:
-- product_not_found - in case product by given id was not found
-
-###### Write own review
+##### Write own review
 
 Request: `POST /products/{product-id}/reviews` with body:
 - `text` - text of review
 - `grade` - value in range [1; 5]
 
-Response: with created [Review Dto](#review)
+Path parameters:
+- `product-id` - id of product to add review to
 
-Possible errors:
-- product_not_found - in case product by given id was not found
+Response: with created [review dto](#review)
 
-###### Reply to review
-
-Request: `POST /products/{product-id}/reviews/{review-id}` with body:
-- `text` - text of comment to review
-
-Response: with affected [Review Dto](#review)
-
-Possible errors:
-- product_not_found - in case product by given id was not found
-- review_nor_found - in case review by given id was not found
-
-###### Get product questions
-
-Request: `GET /product/{product-id}/questions`
-
-Response: `{"questions": { ... }}` - list of [Question Dto](#question)
-
-Possible errors:
-- product_not_found - in case product by given id was not found
-
-###### Ask a question
+##### Ask a question
 
 Request: `POST /product/{product-id}/questions` with body:
 - `text` - text of a question
- 
-Response: with created [Question Dto](#question)
 
-Possible errors:
-- product_not_found - in case product by given id was not found
+Path parameters:
+- `product-id` - id of product to add question to
+
+Response: with created [question dto](#question)
 
 #### Manager
 
-Manager has the same opportunities as Guest, but also can manage the products.
+Manager can manage the products.
 
-- Возможность добавить/удалить/редактировать товар своей категории
-##### Product managing
-
-###### Add product
+##### Add product
 
 Request: `POST /products` with body:
 - `name` - name of product
 - `price` - price of product
 - `description` - description of product
-- `characteristics` - list of product characteristics
+- `image` - id of image to set to the new product
+- `characteristics` - list of product characteristics, each element has:
+  - `characteristic` - name of characteristic
+  - `value` - value of characteristic
 
-Response: with created [Product Dto](#product)
+Response: with created [product dto](#product)
 
-Created product will have the category that was set to user with manager role.
+Created product will have the same category as the manager has.
 
-###### Edit product
+##### Edit product
 
 Request: `POST /products/{product-id}` with body:
-- `name` - new name of product
-- `price` - new price of product
-- `description` - new description of product
-- `characteristics` - new list of product characteristics
+- `name` - name of product
+- `price` - price of product
+- `description` - description of product
+- `image` - id of image to set to the new product
+- `characteristics` - list of product characteristics, each element has:
+  - `characteristic` - name of characteristic
+  - `value` - value of characteristic
 
-Response: with edited [Product Dto](#product)
+Path parameters:
+- `product-id` - id of product to edit
 
-All reviews and questions won't be affected during editing.
+Response: with edited [product dto](#product)
 
-Possible errors:
-- product_not_found - in case product by given id was not found
-- product_incompatible_category - in case product by given id was found but has another from manager's category
+Reviews and questions assigned to this product won't be affected during editing.
 
-###### Delete product
+##### Delete product
 
 Request: `DELETE /products/{product-id}`
 
+Path parameters:
+- `product-id` - id of product to delete
+
 Response: with deleted [Product Dto](#product)
 
-Possible errors:
-- product_not_found - in case product by given id was not found
-- product_incompatible_category - in case product by given id was found but has another from manager's category
+Reviews and questions assigned to this product will be automatically deleted.
 
 ##### Question answering
 
-Request: `POST /products/{product-id}/questions/{question-id}` with body:
-- `text` - text to answer the question
+Request: `POST /products/{product-id}/questions/{question-id}/comments` with body:
+- `text` - text of question to ask
 
-Response: with affected [Question Dto](#question)
+Path parameters:
+- `product-id` - id of product who owns given review
+- `question-id` - id of review to apply for
+
+Response: with affected [question dto](#question)
 
 #### Admin
 
-Admin has the same opportunities as Guest, User or Manager, but also can manage the roles.
+Admin can manage the categories and roles.
 
-##### Role managing
+##### Add new category
 
-###### Get list of managers
+Request: `/categories` with body:
+- `name` - name of new category
+- `basicCharacteristics` - array of basic characteristics (strings) of new category
+
+Response: with created [category dto](#category).
+
+##### Delete category by id
+
+Request: `DELETE /categories/{category-id}`
+
+Path parameters:
+- `category-id` - id of category to delete
+
+Response: with deleted [category dto](#category). 
+
+##### Get list of managers
 
 Request: `GET /users/managers`
 
-Response: {"managers":[{...}]} - list of [Manager Dto](#manager)
+Response: with list of [managers](#manager).
 
-###### Add / edit manager information
+##### Add / edit manager information
 
 Request: `POST /users/managers` with body:
-- `email` - facebook email for an manager
+- `email` - facebook email of the manager
 - `category` - one of categories to set
 
-Response: with added / edited [Manager Dto](#manager)
+Response: with added / edited [manager dto](#manager).
 
-Possible errors:
-- user_has_another_role - in case user is exists but has another role
-
-###### Revoke manager role
+##### Revoke manager role
 
 Request: `DELETE /users/managers/{manager-id}`
 
-Response: with deleted [Manager Dto](#manager)
+Response: with deleted [manager dto](#manager).
 
-Possible errors:
-- user_not_found - in case user by given id was not found
-- user_has_another_role - in case user is exists but has another role
-
-###### Get list of admins
+##### Get list of admins
 
 Request: `GET /users/admins`
-Response: {"admins":[{...}]} - list of [Admin Dto](#admin)
+Response: with list of [admins](#admin).
 
-###### Grant admin role by email
+##### Grant admin role by email
 
 Request: `POST /users/admins` with body:
-- `email` - facebook email for an admin
+- `email` - facebook email of the admin
 
-Response: with added / edited [Admin Dto](#admin)
+Response: with added [admin dto](#admin).
 
-Possible errors:
-- user_has_another_role - in case user is exists but has another role
-
-###### Revoke admin role
+##### Revoke admin role
 
 Request: `DELETE /users/admins/{admin-id}`
 
-Response: with deleted [Admin Dto](#admin)
-
-Possible errors:
-- user_not_found - in case user by given id was not found
-- user_has_another_role - in case user is exists but has another not-admin role
-- user_self_revoking_exception - in case admin is trying to revoke himself
+Response: with deleted [admin dto](#admin).
 
 ## Setting-up the project
 This section describes all needed steps to launch the application.
