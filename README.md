@@ -873,7 +873,37 @@ The example of such file represented in `example.env` file. The needed variables
 - `POSTGRES_PASSWORD` - password of default postgresql user
 - `POSTGRES_DB` - postgresql database name
 
+You can use the next docker-compose.yml template to configure project launching.
+
+<pre>
+version: "3.7"
+
+services:
+  application:
+    # Uncomment the one:
+    # image: greferfeed/eshop   # You can use remote image from docker hub
+    # build: .                  # You can use build the project for your own
+    ports:
+      - ${APPLICATION_PORT}:${APPLICATION_PORT}
+    volumes:
+      - ./:/app
+    env_file:
+      - api.env
+
+  postgresql:
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    image: postgres:15.0
+    volumes:
+      - postgresql-data:/var/lib/postgres
+    env_file:
+      - api.env
+
+volumes:
+  postgresql-data:
+</pre>
+
 #### Launching the application
-Once the `api.env` is created with proper variables you can launch docker with application through running the following command:
+Once the `api.env` is created with proper variables and `docker-compose.yml` is ready to execute you can launch docker with application through running the following command:
 
 `docker-compose --env-file api.env up`
