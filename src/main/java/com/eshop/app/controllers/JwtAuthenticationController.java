@@ -92,7 +92,7 @@ public class JwtAuthenticationController {
       String redirectUri) {
 
     String requestUrl = String.format(FacebookUtil.userFacebookTokenUrlV15,
-        facebookClientId, redirectUri);
+        facebookClientId, redirectUri) + "&scope=public_profile,email";
 
     return new FacebookOauthInfoDto(facebookClientId, redirectUri, requestUrl);
   }
