@@ -29,8 +29,8 @@ import org.springframework.web.client.RestClientException;
 /**
  * Controller for authentication and authenticated requests.
  */
-@RestController
 @CrossOrigin
+@RestController
 public class JwtAuthenticationController {
 
   private final AuthenticationManager authenticationManager;
@@ -92,7 +92,7 @@ public class JwtAuthenticationController {
       String redirectUri) {
 
     String requestUrl = String.format(FacebookUtil.userFacebookTokenUrlV15,
-        facebookClientId, redirectUri);
+        facebookClientId, redirectUri) + "&scope=public_profile,email";
 
     return new FacebookOauthInfoDto(facebookClientId, redirectUri, requestUrl);
   }
