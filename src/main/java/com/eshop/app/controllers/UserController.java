@@ -20,16 +20,21 @@ import com.eshop.app.model.user.UserRole;
 import com.eshop.app.model.user.UserService;
 import com.eshop.app.security.JwtUserDetails;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -46,7 +51,9 @@ public class UserController {
   }
 
   @GetMapping("/me")
-  public ResponseEntity<?> getMyself(Authentication authentication) throws UserException {
+  public ResponseEntity<?> getMyself(Authentication authentication,
+      HttpServletResponse response,
+      HttpServletRequest request) throws UserException {
 
     JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
     User user = userService.findByEmail(jwtUserDetails.getEmail());

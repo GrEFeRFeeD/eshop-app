@@ -29,8 +29,8 @@ import org.springframework.web.client.RestClientException;
 /**
  * Controller for authentication and authenticated requests.
  */
-@RestController
 @CrossOrigin
+@RestController
 public class JwtAuthenticationController {
 
   private final AuthenticationManager authenticationManager;
