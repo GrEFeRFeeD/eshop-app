@@ -781,17 +781,32 @@ Request: `GET /users/managers`
 
 Response: with list of [managers](#manager).
 
-##### Add / edit manager information
+##### Grant manager role by email
 
 Request: `POST /users/managers` with body:
 - `email` - facebook email of the manager
-- `category` - one of categories to set
+- `category` - id of categories to set
 
-Response: with added / edited [manager dto](#manager).
+Response: with added [manager dto](#manager).
 
 Possible [exception](#exceptions) groups:
 - Category
 - Image
+- User
+
+##### Edit manager category
+
+Request: `POST /users/managers/{manager-id}` with body
+- category - id of categories to setf
+
+Path parameters:
+- `manager-id` - id of manager to edit category
+
+Response: with edited [manager dto](#manager).
+
+Possible [exception](#exceptions) groups:
+- Category
+- User
 
 ##### Revoke manager role
 
