@@ -23,51 +23,29 @@
 ## Story
 
 Guest:
-- Просмотр списка товаров (+фильтры)
-- Просмотр отдельного товара (в т.ч. характеристик, отзывов, вопросов)
+- Can see product, category list or exact product/category
+- Can see rivews/questions 
 
 Customer:
-- Все права пользователя Guest
-- Возможность управления корзиной (добавить/удалить товары в корзине)
-- Возможность писать свои отзывы для определённого товара (оценка + комментарий)
-- Возможность писать свои вопросы для определённого товара
+- All rights of Guest user
+- Basket managing (adding / deleting products)
+- Posibility to review products or comment reviews
 
 Manager:
-- Все права пользователя Guest
-- Возможность добавить/удалить/редактировать товар своей категории
-- Возможность просматривать / комментировать отзывы / вопросы к товару
+- All rights of Guest user
+- Posibility to add/edit products of self category
+- Posibility to ask customers questions
 
 Admin:
-- Все права пользователей User и Manager
-- Управление ролями пользователей (дать / упразднить роль Manager, установить категорию менеджера)
-
-Категории товаров и их базовые характеристики:
-- Clothes
-  - Size
-  - Material
-  - Brand
-- Electronics
-  - Type
-  - Manufacturer
-- Personal Care
-  - Type
-  - Body part
-  - Ingredients
-- Hobbies
-  - Field
-- Equipment
-  - Type
-- Food Products
-  - GMO
-  - Lactose contains
-  - Peanut contains
-- Agriculture
-  - Genus
-  - Modifications
+- Rights of Customer and Manager users
+- Posibility to add / edit / delete categories
+- Roles managing (grant/revoke manager/admin roles)
 
 ## API
+This section describes all information about the implemented API.
 
 ### Models
+This section describes DTO models to link through documenting the [endpoints](#implemented-api).
 
 #### Users
 
