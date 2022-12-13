@@ -910,4 +910,4 @@ This section describes all additional materials for the implemented API.
 ## Postman collection
 API has postman collection to demonstrate the implemented API.
 
-You can find it by the [link](). 
+You can find it by the [link](https://github.com/GrEFeRFeeD/eshop-app/blob/main/docs/Postman/). 
