@@ -19,6 +19,8 @@
     * [Manager](#manager-1)
     * [Admin](#admin-1)
 * [Setting-up the project](#setting-up-the-project)
+* [Additional materials](#additional-materials)
+  * [Postman collection](#postman-collection)
 
 ## Story
 
@@ -759,17 +761,32 @@ Request: `GET /users/managers`
 
 Response: with list of [managers](#manager).
 
-##### Add / edit manager information
+##### Grant manager role by email
 
 Request: `POST /users/managers` with body:
 - `email` - facebook email of the manager
-- `category` - one of categories to set
+- `category` - id of categories to set
 
-Response: with added / edited [manager dto](#manager).
+Response: with added [manager dto](#manager).
 
 Possible [exception](#exceptions) groups:
 - Category
 - Image
+- User
+
+##### Edit manager category
+
+Request: `POST /users/managers/{manager-id}` with body
+- category - id of categories to setf
+
+Path parameters:
+- `manager-id` - id of manager to edit category
+
+Response: with edited [manager dto](#manager).
+
+Possible [exception](#exceptions) groups:
+- Category
+- User
 
 ##### Revoke manager role
 
@@ -851,6 +868,7 @@ The example of such file represented in `example.env` file. The needed variables
 - `POSTGRES_PASSWORD` - password of default postgresql user
 - `POSTGRES_DB` - postgresql database name
 
+#### Configuring docker-compose
 You can use the next docker-compose.yml template to configure project launching.
 
 <pre>
@@ -885,3 +903,11 @@ volumes:
 Once the `api.env` is created with proper variables and `docker-compose.yml` is ready to execute you can launch docker with application through running the following command:
 
 `docker-compose --env-file api.env up`
+
+# Additional materials
+This section describes all additional materials for the implemented API.
+
+## Postman collection
+API has postman collection to demonstrate the implemented API.
+
+You can find it by the [link](). 

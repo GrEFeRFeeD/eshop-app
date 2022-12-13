@@ -2,6 +2,7 @@ package com.eshop.app.controllers;
 
 import com.eshop.app.controllers.dtos.AdminDto;
 import com.eshop.app.controllers.dtos.AdminListDto;
+import com.eshop.app.controllers.dtos.EditManagerDto;
 import com.eshop.app.controllers.dtos.ManagerDto;
 import com.eshop.app.controllers.dtos.ManagerListDto;
 import com.eshop.app.controllers.dtos.NewAdminDto;
@@ -53,7 +54,7 @@ public class AdminController {
 
   @PostMapping("/users/managers")
   public ResponseEntity<ManagerDto> addNewManager(@Valid @RequestBody NewManagerDto newManagerDto)
-      throws CategoryException, ImageException {
+      throws CategoryException, ImageException, UserException {
 
     Category category = categoryService.findById(newManagerDto.getCategory());
 
@@ -61,17 +62,31 @@ public class AdminController {
     try {
       user = userService.findByEmail(newManagerDto.getEmail());
 
-      if (user.getRole() != UserRole.MANAGER) {
-        throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
-      }
-
-      user.setCategory(category);
-      user = userService.save(user);
     } catch (UserException e) {
 
       user = userService.addNewManager(newManagerDto.getEmail(), category);
+      return ResponseEntity.ok(new ManagerDto(user));
     }
 
+    throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
+  }
+
+  @PostMapping("/users/managers/{manager-id}")
+  public ResponseEntity<ManagerDto> editManager(
+    @PathVariable("manager-id") Long id,
+    @Valid @RequestBody EditManagerDto editManagerDto
+  ) throws CategoryException, UserException {
+
+    User user = userService.findById(id);
+
+    if (user.getRole() != UserRole.MANAGER) {
+      throw new UserException(UserExceptionProfile.USER_HAS_ANOTHER_ROLE);
+    }
+
+    Category category = categoryService.findById(editManagerDto.getCategory());
+
+    user.setCategory(category);
+    user = userService.save(user);
     return ResponseEntity.ok(new ManagerDto(user));
   }
 
