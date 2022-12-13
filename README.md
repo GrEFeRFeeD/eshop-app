@@ -888,6 +888,7 @@ The example of such file represented in `example.env` file. The needed variables
 - `POSTGRES_PASSWORD` - password of default postgresql user
 - `POSTGRES_DB` - postgresql database name
 
+#### Configuring docker-compose
 You can use the next docker-compose.yml template to configure project launching.
 
 <pre>
