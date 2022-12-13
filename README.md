@@ -19,6 +19,8 @@
     * [Manager](#manager-1)
     * [Admin](#admin-1)
 * [Setting-up the project](#setting-up-the-project)
+* [Additional materials](#additional-materials)
+  * [Postman collection](#postman-collection)
 
 ## Story
 
@@ -923,3 +925,11 @@ volumes:
 Once the `api.env` is created with proper variables and `docker-compose.yml` is ready to execute you can launch docker with application through running the following command:
 
 `docker-compose --env-file api.env up`
+
+# Additional materials
+This section describes all additional materials for the implemented API.
+
+## Postman collection
+API has postman collection to demonstrate the implemented API.
+
+You can find it by the [link](). 
