@@ -1,0 +1,1001 @@
+{
+	"info": {
+		"_postman_id": "8f3f22d4-7221-4ab3-8b34-15b98c7b9fb9",
+		"name": "eshop-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Guest",
+			"item": [
+				{
+					"name": "Get FB client id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/oauth2/facebook/v15.0",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"oauth2",
+								"facebook",
+								"v15.0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"facebookToken\": \"EAAHCtjLRG80BAPBvz8WojMZCq5HYZAD21LqnusCDq39bnc2NOsHdw5ZCfNdTPQOYQOJmtQbtqb1GY8ZB0aZCbYy8FyUZAqfRyWOZCceGWclR3glSztYCXtOgy905lDocbSVfvA5K9pERa1f5ttzG1XJRbIQN5EpC4lKHtZBoEhl8fAmemC82IvfLFgfhsh9PZB23i8UZBEmXhMXv6kOHZBaiGi8UKlh4YZB6yxqTrZCD9ajF2zgZDZD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/authenticate",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get category by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products?category=1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product reviews by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products/1/reviews",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product questions by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products/1/questions",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get image by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/images/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"images",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authenticated",
+			"item": [
+				{
+					"name": "Get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/4",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user reviews by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/3/reviews",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user questions by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/3/questions",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post me",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ehehe\",\r\n    \"image\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Admin/Desktop/Профильный лист.png"
+								},
+								{
+									"key": "name",
+									"value": "bebebe",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/images",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply to product review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"text4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products/1/reviews/1/comments",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"reviews",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get basket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/basket",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"basket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add product to basket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 2,\r\n    \"count\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/basket",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"basket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product from basket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 1,\r\n    \"count\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/basket",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"basket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add review to product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"text\",\r\n    \"grade\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products/1/reviews",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a question to product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"question\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products/1/questions",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manager",
+			"item": [
+				{
+					"name": "Apply to product question",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"q answear\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products/1/questions/2/comments",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"questions",
+								"2",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"product1\",\r\n    \"price\": 123.45,\r\n    \"description\": \"description\",\r\n    \"image\": 1,\r\n    \"characteristics\": [\r\n        {\r\n            \"characteristic\": \"be\",\r\n            \"value\": \"be\"\r\n        },\r\n        {\r\n            \"characteristic\": \"bebe\",\r\n            \"value\": \"bebe\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"product1\",\r\n    \"price\": 123.45,\r\n    \"description\": \"description\",\r\n    \"characteristics\": [\r\n        {\r\n            \"characteristic\": \"test1\",\r\n            \"value\": \"be\"\r\n        },\r\n        {\r\n            \"characteristic\": \"test2\",\r\n            \"value\": \"bebe\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/products/11",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/products/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt_manager}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add new category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"name1\",\r\n    \"basicCharacteristics\": [\r\n        \"bc1\", \"bc2\", \"bc3\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/categories",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get managers list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/managers",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"managers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new manager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"bielobrov.8864899@stud.op.edu.ua\",\r\n    \"category\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/managers",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"managers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit existing manager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/managers/2",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"managers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete manager",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/managers/2",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"managers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get admins list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/admins",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"testadmin@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/admins",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete admin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/users/admins/1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt_admin}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "jwt",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiaWVsb2Jyb3YuODg2NDg5OUBzdHVkLm9wLmVkdS51YSIsIm5hbWUiOiLQkNGA0YLRg9GAINCR0LXQu9C-0LHRgNC-0LIiLCJleHAiOjE2NzEzNTcyNjAsImlhdCI6MTY3MDQ5MzI2MCwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ1VTVE9NRVIifV19.OXorkelmsfM2-n8xzOhI9HIAIPNtjaug90iY8_D5CiaGxlytJkZDUx3sMCkTWWICwPFhXGxk5RNuvinu229ByQ",
+			"type": "default"
+		},
+		{
+			"key": "jwt_manager",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6aHVyemhha2F0ZXJpbmFAZ21haWwuY29tIiwibmFtZSI6ItCa0LDRgtGPINCW0YPRgNC20LAiLCJleHAiOjE2NzEzNTcyNDMsImlhdCI6MTY3MDQ5MzI0MywiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfTUFOQUdFUiJ9XX0.AiwXbATT6InLssdd3PnJckVB60kRL71GeZLbx8A1pt7e7Rv2eYtgEjiR7REvmy9rPqzxzlrzUq21_2xpQCi9QA",
+			"type": "default"
+		},
+		{
+			"key": "jwt_admin",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhem9mZXI3N0BnbWFpbC5jb20iLCJuYW1lIjoi0JDRgNGC0YPRgCDQkdC10LvQvtCx0YDQvtCyIiwiZXhwIjoxNjcxMzU3MTk0LCJpYXQiOjE2NzA0OTMxOTQsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dfQ.l54EZ-JTe1em0-9Vibx8HN3ct7NZrx-YqnjaWpb981NU2Z49HjQZh2NkfYzg5gj4bMfF7pHgdTxBZDGnawbusg",
+			"type": "default"
+		}
+	]
+}
