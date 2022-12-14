@@ -76,4 +76,34 @@ public class ImageService {
 
     return save(multipartFile);
   }
+
+  public Image getImageByPath(String picturePath) {
+
+    File file = new File("./pictures/" + picturePath);
+    FileInputStream input = null;
+    try {
+      input = new FileInputStream(file);
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+
+    MultipartFile multipartFile;
+    try {
+      multipartFile = new MockMultipartFile(picturePath,
+          file.getName(), "text/plain", org.apache.commons.io.IOUtils.toByteArray(input));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    Image image = new Image();
+    image.setName(multipartFile.getName());
+
+    try {
+      image.setContent(multipartFile.getBytes());
+    } catch (IOException e) {
+      throw new RuntimeException();
+    }
+
+    return imageRepository.save(image);
+  }
 }

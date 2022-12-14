@@ -22,12 +22,10 @@ public class BasketService {
 
   public Basket findById(User user, Product product) {
 
-    System.out.println("FINDING BY ID");
     Basket basket = basketRepository.findByUserAndProduct(user, product);
     if (basket == null) {
       basket = getEmptySavedBasket(user, product);
     }
-    System.out.println("SUCC FOUND");
 
     return basket;
   }

@@ -36,4 +36,13 @@ public class Basket {
   private Product product;
 
   private int count;
+
+  @Override
+  public String toString() {
+    return "Basket{" +
+        "user=" + user.getId() +
+        ", product=" + product.getId() +
+        ", count=" + count +
+        '}';
+  }
 }

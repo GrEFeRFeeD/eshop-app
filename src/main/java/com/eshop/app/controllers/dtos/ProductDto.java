@@ -21,6 +21,7 @@ public class ProductDto {
   private String name;
   private String description;
   private Double price;
+  private Long category;
   private List<CharacteristicDto> characteristics;
 
   public ProductDto(Product product) {
@@ -29,6 +30,7 @@ public class ProductDto {
     this.name = product.getName();
     this.description = product.getDescription();
     this.price = product.getPrice();
+    this.category = product.getCategory().getId();
     this.characteristics = product.getCharacteristics().stream().map(CharacteristicDto::new).collect(
         Collectors.toList());
   }

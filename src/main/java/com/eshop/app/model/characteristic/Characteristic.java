@@ -38,4 +38,13 @@ public class Characteristic {
   @JoinColumn(name = "product_id")
   @JsonIgnore
   private Product product;
+
+  @Override
+  public String toString() {
+    return "Characteristic{" +
+        "id=" + id +
+        ", characteristic='" + characteristic + '\'' +
+        ", value='" + value + '\'' +
+        '}';
+  }
 }
